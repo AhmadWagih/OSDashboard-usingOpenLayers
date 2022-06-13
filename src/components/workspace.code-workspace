@@ -1,0 +1,16 @@
+{
+	"folders": [
+		{
+			"path": "..\\..\\..\\23 Reactjs\\day01"
+		},
+		{
+			"path": "..\\.."
+		},
+		{
+			"path": "..\\..\\..\\21 NodeJS\\Day 02"
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "FINAL_PROPJECT_APIS"
+	}
+}

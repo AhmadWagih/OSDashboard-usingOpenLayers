@@ -1,0 +1,32 @@
+{
+  "products": [
+    {
+      "name": "mango",
+      "price": 16,
+      "count": 0,
+      "added": false,
+      "id": 1
+    },
+    {
+      "name": "cola",
+      "price": 12,
+      "count": 0,
+      "added": false,
+      "id": 2
+    },
+    {
+      "id": 3,
+      "name": "fakhfakhena",
+      "price": 25,
+      "count": 0,
+      "added": false
+    },
+    {
+      "name": "sugar can",
+      "price": 25,
+      "count": 0,
+      "added": false,
+      "id": 4
+    }
+  ]
+}
