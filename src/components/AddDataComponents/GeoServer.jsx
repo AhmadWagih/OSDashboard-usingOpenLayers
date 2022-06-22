@@ -1,7 +1,10 @@
-import React, { useState,useCallback } from "react";
+import React, { useContext,useState,useCallback } from "react";
+import { AddDataContext } from './../../contexts/addData';
 
 const GeoServer = (props) => {
   const [wfsurl,setWfsurl]=useState({wfsurl:""});
+
+  const {wfsGeoserver,save}= useContext(AddDataContext)
 
   const handleChange =useCallback( (e) => {
     const {value,name} = e.target;
@@ -23,7 +26,7 @@ const GeoServer = (props) => {
           />
         </div>
         <button
-          onClick={() => props.wfsGeoserver(wfsurl.wfsurl)}
+          onClick={() => wfsGeoserver(wfsurl.wfsurl)}
           className="button-form"
         >
           View

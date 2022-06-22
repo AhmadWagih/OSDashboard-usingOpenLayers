@@ -5,7 +5,7 @@ const Navbar = (props) => {
   //sfc
   return (
     <React.Fragment>
-      <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+      <nav className="navbar navbar-expand-lg navbar-dark bg-dark" style={{height:"8vh"}}>
         <div className="container-fluid">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             <li className="nav-item">

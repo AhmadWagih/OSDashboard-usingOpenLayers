@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import MainPage from "./mainPage";
+import MainPage from "./AddData";
 import NotLoggedIn from './notLoggedIn';
 
 class Home extends Component {

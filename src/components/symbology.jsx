@@ -1,10 +1,9 @@
 import React, { useState, useCallback } from "react";
 
-import { MapHook } from "./hooks/Map.js";
-import MyMap from "./Map";
+import MyMap from "./Common/Map";
 
 
-const Symbology = (props) => {
+const Symbology = () => {
 
   const [rightPanel, setRightPanel] = useState({ display: "none" });
   const renderRightPanel = useCallback((e) => {

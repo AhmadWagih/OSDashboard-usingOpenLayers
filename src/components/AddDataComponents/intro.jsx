@@ -1,7 +1,7 @@
-import React from "react";
+
 import { Link } from "react-router-dom";
 
-const AddData = () => {
+const Intro = () => {
   return ( <>
     <h2>select how do you want to load your data</h2>
     <div className="flexContainer m-2">
@@ -23,4 +23,4 @@ const AddData = () => {
   </> );
 }
  
-export default AddData;
+export default Intro;

@@ -39,7 +39,7 @@ const LogIn = (props) => {
   return ( 
   <>
     <div id="login-form">
-      <img className="img-150" src={require("../imgs/user.png")} alt="" />
+      <img className="img-150" src={require("../../imgs/user.png")} alt="" />
 
       <form onSubmit={handleForm}>
         <label className="d-block form-label" htmlFor="userName">

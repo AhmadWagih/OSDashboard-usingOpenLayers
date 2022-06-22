@@ -19,7 +19,7 @@ const NotLoggedIn = (props) => {
       change over time.
     </p>
     <img
-      src={require("../imgs/kepler-gl.png")} style={{height:"500px",width:"800px"}}
+      src={require("../../imgs/kepler-gl.png")} style={{height:"500px",width:"800px"}}
     />
   </> );
 }

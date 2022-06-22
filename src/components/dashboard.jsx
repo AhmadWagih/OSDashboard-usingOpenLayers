@@ -16,6 +16,7 @@ import Style from "ol/style/style";
 import Group from "ol/layer/group.js";
 import Indicator from "./Layout_Component/Indicator";
 import Text from "./Layout_Component/Text";
+import PieChart from './Layout_Component/pieChart';
 
 const Dashboard = () => {
   const [attributes,setAttributes]=useState(null);
@@ -41,20 +42,20 @@ const Dashboard = () => {
       case "Text":
         component=<Text handleChange={handleChange}/>;
         break;
-      // case "Pie Chart":
-      //   Layout_Component=<PieChart attributes={state.attributes} handleChange={handleChange}/>;
-      //   break;
+      case "Pie Chart":
+        component=<PieChart attributes={state.attributes} handleChange={handleChange}/>;
+        break;
       // case "Gauge":
-      //   Layout_Component=<Gauge attributes={state.attributes} handleChange={handleChange}/>;
+      //   component=<Gauge attributes={state.attributes} handleChange={handleChange}/>;
       //   break;
       // case "Bar Chart":
-      //   Layout_Component=<BarChart attributes={state.attributes} handleChange={handleChange}/>;
+      //   component=<BarChart attributes={state.attributes} handleChange={handleChange}/>;
       //   break;
       // case "List":
-      //   Layout_Component=<List attributes={state.attributes} handleChange={handleChange}/>;
+      //   component=<List attributes={state.attributes} handleChange={handleChange}/>;
       //   break;
       // case "Table":
-      //   Layout_Component=<Table attributes={state.attributes} handleChange={handleChange}/>;
+      //   component=<Table attributes={state.attributes} handleChange={handleChange}/>;
       //   break;
       default:
         style={display:"none"};
@@ -218,7 +219,7 @@ const Dashboard = () => {
         <div id="map"></div>
         <canvas
           id="myChart"
-          style={{ width: "20%", maxWidth: "200px" }}
+          style={{ width: "20%", maxWidth: "200px" ,height:"200px"}}
         ></canvas>
         {/* {Indicat?.map((elm)=><IndecatorShape/>)} */}
       </div>
