@@ -53,8 +53,8 @@ const Draw = () => {
       } catch (error) {}
       try {
         document.getElementById("2ndCol").style.display = "block";
+        document.getElementById("map").style.width = "auto";
       } catch (error) {}
-      document.getElementById("map").style.width = "auto";
     };
   }, [mapIsLoaded, addDrawButtons, removeDrawButtons]);
   return (

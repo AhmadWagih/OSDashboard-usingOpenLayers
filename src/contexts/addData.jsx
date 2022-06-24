@@ -1,4 +1,4 @@
-import { createContext, useState, useCallback, useEffect } from "react";
+import { createContext, useState, useCallback } from "react";
 import { toast } from "react-toastify";
 
 //#region
@@ -41,7 +41,7 @@ const AddDataContextProvider = ({ children }) => {
     dataSource: null,
     mapIsLoaded: false,
   });
-
+  
   const [drawControls, setDrawControls] = useState({
     isDrawing: false,
     isMeasuring: false,
@@ -220,7 +220,6 @@ const AddDataContextProvider = ({ children }) => {
       }),
     });
     mapData.map.addLayer(drawLayer);
-    console.log(mapData);
   }, [mapData]);
 
   const changeType = useCallback(
@@ -383,11 +382,7 @@ const AddDataContextProvider = ({ children }) => {
   };
 
   //#endregion
-  
-  useEffect(() => {
-    addMap();
-    addDrawInteraction("Point");
-  }, []);
+
   return (
     <AddDataContext.Provider
       value={{
@@ -402,6 +397,7 @@ const AddDataContextProvider = ({ children }) => {
         save,
         wfsGeoserver,
         CsvImport,
+        addMap
       }}
     >
       {children}

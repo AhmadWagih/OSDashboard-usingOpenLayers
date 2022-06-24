@@ -6,9 +6,11 @@ import NotFound from "./Common/notFound";
 import Login from "./Common/login";
 import AddData from "./AddDataComponents/AddData";
 import NotLoggedIn from "./Common/notLoggedIn";
-import Dashboard from "./dashboard";
 import Symbology from "./symbology";
 import AddDataContextProvider from "../contexts/addData";
+import DashBoardModule from "./dashBoardModule";
+import Home from "./Common/home";
+
 
 const App = () => {
   const [logging, setLogging] = useState({
@@ -31,12 +33,12 @@ const App = () => {
         <Route path="/notLoggedIn" element={<NotLoggedIn />} />
         <Route exact path="/*" element={<AddData />} />
         <Route path="/symbology" element={<Symbology />} />
-        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/dashboard" element={<DashBoardModule />} />
         <Route exact path="/" element={<Navigate to="/home" />} />
         <Route
           path="/home"
           element={
-            <Navigate to={logging.loggedIn ? "/mainpage" : "/notLoggedIn"} />
+            <Home/>
           }
         />
         <Route element={<Navigate to="/notfound" />} />

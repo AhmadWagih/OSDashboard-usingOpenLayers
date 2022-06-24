@@ -1,16 +1,7 @@
-import React, { Component } from "react";
-import MainPage from "./AddData";
-import NotLoggedIn from './notLoggedIn';
 
-class Home extends Component {
-  show = this.props.loggedIn?MainPage:NotLoggedIn;
-  render() {
-    return (
-      <React.Fragment>
-        <this.show/>
-      </React.Fragment>
-    );
-  }
+const Home = () => {
+  return (<h1>hamada</h1>  );
 }
-
+ 
 export default Home;
+

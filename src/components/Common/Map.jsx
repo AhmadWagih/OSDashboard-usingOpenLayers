@@ -4,14 +4,14 @@ import { AddDataContext } from '../../contexts/addData';
 
 const MyMap = () => {
   
-  const {mapData,changeBaseMap}=useContext(AddDataContext)
-  const {mapIsLoaded} = mapData;
+  const {changeBaseMap,addMap,addDrawInteraction}=useContext(AddDataContext)
   useEffect(()=>{
+    addMap();
+    addDrawInteraction("Point");
     try {
       let rightPanel = document.getElementsByClassName(
         "ol-full-screen ol-unselectable ol-control "
       )[0];
-  
       let baseMapButton = document.createElement("Button");
       let myIcon = document.createElement("i");
       baseMapButton.appendChild(myIcon);
@@ -34,7 +34,6 @@ const MyMap = () => {
         img.className = "basemapimg";
         img.style.display = "none";
         img.id = baseMap;
-        // img.innerHTML=`<img src={require("../imgs/${baseMap}.png")} alt="${baseMap}" />`
         img.src = require(`../../imgs/${baseMap}.png`);
         img.alt = baseMap;
         img.addEventListener("click", changeBaseMap);
@@ -47,7 +46,7 @@ const MyMap = () => {
         zoomPanel.style.left = "1em";
       }
     } catch (error) {}
-  },[mapIsLoaded]) 
+  },[]) 
 
   return (
     <div id="map">
