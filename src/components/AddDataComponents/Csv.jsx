@@ -14,7 +14,6 @@ const Csv = () => {
     data: null,
     attOptions: null,
     attributes: [{ name: "", key: "" }], //name of attributes given by the user & the chosen fields from the json file
-    method: null,
   });
 
   const { CsvImport, save, finalView } = useContext(AddDataContext);
@@ -29,7 +28,6 @@ const Csv = () => {
   }, []);
 
   const readData = async () => {
-    // let url = "https://corona.lmao.ninja/v2/countries"; //url -----------------------
     if (state.method === "url") {
       let { data } = await axios.get(state.jsonurl);
       viewData(data);
