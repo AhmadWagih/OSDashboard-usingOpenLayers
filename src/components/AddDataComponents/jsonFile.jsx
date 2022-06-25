@@ -64,7 +64,6 @@ const JsonFile = () => {
     }
   };
   const viewData = (data) => {
-    console.log(data);
     if (!data.length) {
       data = Object.values(data)[0];
     }
@@ -92,9 +91,9 @@ const JsonFile = () => {
     }
     let latKey, longKey;
     for (const key of dataKeys) {
-      if (key.includes(" lon")) {
+      if (key.toLowerCase().includes("lon")||key.toLowerCase().includes(" lon")) {
         longKey = key;
-      } else if (key.includes(" lat")) {
+      } else if (key.toLowerCase().includes(" lat")||key.toLowerCase().includes(" lat")) {
         latKey = key;
       }
     }
@@ -107,7 +106,6 @@ const JsonFile = () => {
     });
     let att = [...state.attributes];
     let attributes = att.map((elm) => ({ name: elm.name, key: dataKeys[0] }));
-    console.log(attributes);
     setState({ ...state, data, attOptions, latKey, longKey, attributes });
   };
 

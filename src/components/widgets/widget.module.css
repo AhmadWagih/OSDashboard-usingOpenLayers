@@ -6,15 +6,55 @@
     width: 150px;
     height: 150px;
     margin: 5px;
+    resize: both;
+  overflow: auto;
+  position: relative;
 }
+
+.containerChart{
+    border: 1px solid gray;
+    display: inline-flex;
+    flex-direction: column;
+    width: 300px;
+    height: 300px;
+    margin: 5px;
+    resize: both;
+    overflow: auto;
+    position: relative;
+}
+
+.titleDiv{
+    right: 0;
+    position: absolute;
+    display: flex;
+    height: 30px;
+    width: 50px;
+
+}
+
 .title{
     font-weight: bolder;
-    padding: 5px;
+    padding: 0 5px;
+    margin: 0;
 }
 .Indicator{
-    font-size: xx-large;
+    font-size: 24px;
     font-weight: bold;
     align-self: center;
     margin-top: auto;
     margin-bottom: 40% ;
+}
+.chart{
+    width:280px;
+    height:280px;
+    margin: 5px auto;
+    padding: 0;
+}
+.modifyIcon{
+    margin: 10px 5px;
+    display: none !important; 
+}
+.titleDiv:hover .modifyIcon{
+    display: inline-block !important;
+    cursor: pointer;
 }
