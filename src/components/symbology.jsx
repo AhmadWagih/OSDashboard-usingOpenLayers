@@ -1,75 +1,43 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback,useEffect } from "react";
+import { getLayerById } from "../APIs/layer";
+import { addMap,drawGeoJson } from "../helper/addMapHelper";
+import { Routes,Route } from 'react-router-dom';
 
 import MyMap from "./Common/Map";
+import LeftPanel from './symbology/leftPanel';
+import SingleSymb from "./symbology/SingleSymb";
+import CatSymb from './symbology/CatSymb';
+import GradientSize from "./symbology/GradientSize";
+import GradientColor from "./symbology/GradientColor";
 
 
 const Symbology = () => {
 
-  const [rightPanel, setRightPanel] = useState({ display: "none" });
-  const renderRightPanel = useCallback((e) => {
-    let style = { display: "inline-block" };
-    let component;
-    switch (e.target.innerText) {
-      //   case "Indicator":
-      //     component=<Indicator attributes={attributes} handleChange={handleChange}/>;
-      //     break;
-      //   case "Text":
-      //     component=<Text handleChange={handleChange}/>;
-      //     break;
-      // case "Pie Chart":
-      //   Layout_Component=<PieChart attributes={state.attributes} handleChange={handleChange}/>;
-      //   break;
-      // case "Gauge":
-      //   Layout_Component=<Gauge attributes={state.attributes} handleChange={handleChange}/>;
-      //   break;
-      // case "Bar Chart":
-      //   Layout_Component=<BarChart attributes={state.attributes} handleChange={handleChange}/>;
-      //   break;
-      // case "List":
-      //   Layout_Component=<List attributes={state.attributes} handleChange={handleChange}/>;
-      //   break;
-      // case "Table":
-      //   Layout_Component=<Table attributes={state.attributes} handleChange={handleChange}/>;
-      //   break;
-      default:
-        style = { display: "none" };
-        break;
+  const [state,setState] = useState(null)
+
+  useEffect(()=>{
+    const {map,baseMapGroup} = addMap("map");
+    async function  readLayer() {
+      const layer= await getLayerById(11);
+      let features = drawGeoJson(map,layer.geoJson)
+
     }
-    setRightPanel(style);
-  }, []);
+    readLayer()
+  },[])
+  
   return (
     <>
       <div className="row m-0">
         <div className="column-1">
-          <div className="p-2 toolti">
-            <i className="fa-solid fa-table"></i>
-            <span className="tooltiptext"></span>
-          </div>
-          <div className="p-2 toolti">
-            <i className="fa-solid fa-palette"></i>
-            <span className="tooltiptext">Themes</span>
-          </div>
-          <div className="p-2 toolti">
-            <i className="fa-solid fa-floppy-disk"></i>
-            <span className="tooltiptext">Save</span>
-          </div>
+          <LeftPanel/>
         </div>
-        <div className="column-2 col-2 p-0">
-          <div>
-            <h4 className="list-group-item">Symbology</h4>
-          </div>
-          <div className="list-elements" onClick={renderRightPanel}>
-            Single Symbology
-          </div>
-          <div className="list-elements" onClick={renderRightPanel}>
-            Category
-          </div>
-          <div className="list-elements" onClick={renderRightPanel}>
-            Graduated Colors
-          </div>
-          <div className="list-elements" onClick={renderRightPanel}>
-            Graduated Symbology
-          </div>
+        <div className="col-3 sub-left-panel">
+          <Routes>
+            <Route path="/" element={<SingleSymb/>} />
+            <Route path="/Category" element={<CatSymb/>} />
+            <Route path="/GSize" element={<GradientSize/>} />
+            <Route path="/GColor" element={<GradientColor/>} />
+          </Routes>
         </div>
         <div className="col">
           <MyMap/>

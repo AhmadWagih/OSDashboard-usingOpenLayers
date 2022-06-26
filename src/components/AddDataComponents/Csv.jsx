@@ -1,5 +1,7 @@
 import React, { useCallback, useState, useContext } from "react";
 import { AddDataContext } from "./../../contexts/addData";
+import { toast } from "react-toastify";
+
 
 const Csv = () => {
   const [state, setState] = useState({
@@ -12,6 +14,8 @@ const Csv = () => {
     selectedFile: null,
     data: null,
     attOptions: null,
+    isLoaded:false,
+    isViewed:false,
     attributes: [{ name: "", key: "" }], //name of attributes given by the user & the chosen fields from the json file
   });
 
@@ -22,6 +26,7 @@ const Csv = () => {
     if (type !== "file") {
       setState((u) => ({ ...u, [name]: value }));
     } else {
+      state.isOpen=true;
       setState((u) => ({ ...u, [name]: e.target.files }));
     }
   }, []);
@@ -87,7 +92,6 @@ const Csv = () => {
     }
     let att = [...state.attributes];
     let attributes = att.map((elm) => ({ name: elm.name, key: dataKeys[0] }));
-    console.log(jsonObj);
     setState({
       ...state,
       data: jsonObj,
@@ -98,6 +102,60 @@ const Csv = () => {
     });
   };
 
+  const handleFinalView=()=>{
+    if(state.isLoaded){
+      finalView(
+        state.data,
+        state.CoordSys,
+        state.longKey,
+        state.latKey,
+        state.attributes
+      )
+      state.isViewed=true;
+    }else{
+      toast.error("Load data First", {
+        position: "bottom-left",
+        autoClose: 1000,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "colored",
+      });
+    }
+  }
+  const handleReadData=()=>{
+    if(state.isOpen){
+      readData()
+      state.isLoaded=true;
+    }else{
+      toast.error("please Enter Url or Choose File", {
+        position: "bottom-left",
+        autoClose: 1000,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "colored",
+      });
+    }
+  }
+
+  const handleSave=useCallback(()=>{
+    if (state.layerName!==""&&state.isViewed) {
+      save(state.layerName);
+    }else{
+      let message = state.layerName!==""? "You can't save without View data":" Add Layer Name ";
+      toast.error(message, {
+        position: "bottom-left",
+        autoClose: 1000,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "colored",
+      });
+    }
+  },[save,state])
+
+
   const addField = useCallback(() => {
     let att = [...state.attributes];
     att.push({ name: "", key: "" });
@@ -107,7 +165,7 @@ const Csv = () => {
   return (
     <>
       <div className="list-group-item">
-        <h3>CSV Import</h3>
+        <h4>CSV Import</h4>
       </div>
       <div className="component-div border-bot">
         <label htmlFor="layer-name" className="label-dark">
@@ -164,7 +222,7 @@ const Csv = () => {
         />
       </div>
       <div className="component-div border-bot">
-        <button onClick={readData} className="button-form">
+        <button onClick={handleReadData} className="button-form">
           check
         </button>
       </div>
@@ -234,20 +292,12 @@ const Csv = () => {
         </div>
       </div>
       <button
-        onClick={() =>
-          finalView(
-            state.data,
-            state.CoordSys,
-            state.longKey,
-            state.latKey,
-            state.attributes
-          )
-        }
+        onClick={handleFinalView}
         className="button-form "
       >
         View
       </button>
-      <button onClick={() => save()} className="button-form ">
+      <button onClick={handleSave} className="button-form ">
         Save
       </button>
     </>

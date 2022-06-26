@@ -1,5 +1,6 @@
-import React, { useEffect } from "react";
-import { ToastContainer, toast } from "react-toastify";
+
+import { useEffect,useContext } from "react";
+import { ToastContainer } from "react-toastify";
 import { Routes, Route } from "react-router-dom";
 import LeftPanel from "../Common/leftPanel";
 import Draw from "./draw";
@@ -7,17 +8,17 @@ import JsonFile from "./jsonFile";
 import MyMap from "../Common/Map";
 import GeoServer from "./GeoServer";
 import Csv from "./Csv";
+import { AddDataContext } from '../../contexts/addData';
 
 const AddData = () => {
-  useEffect(() => {
-    toast.success("you are Logged In", {
-      position: "top-center",
-      autoClose: 3000,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-    });
-  }, []);
+  const {addMapAndDrawLayer,addDrawInteraction}=useContext(AddDataContext)
+  useEffect(()=>{
+    addMapAndDrawLayer();
+    addDrawInteraction("Point");
+    try {
+      
+    } catch (error) {}
+  },[]) 
 
   return (
     <>
@@ -39,10 +40,10 @@ const AddData = () => {
           </div>
           <div className="col-3 sub-left-panel" id="2ndCol">
             <Routes>
-              <Route path="/addData/" element={<Draw />} />
-              <Route path="/addData/json" element={<JsonFile />} />
-              <Route path="/addData/geoserver" element={<GeoServer />} />
-              <Route path="/addData/csv" element={<Csv />} />
+              <Route path="/" element={<Draw />} />
+              <Route path="/json" element={<JsonFile />} />
+              <Route path="/geoserver" element={<GeoServer />} />
+              <Route path="/csv" element={<Csv />} />
               {/* <Route exact path="/addData" element={<Intro />} /> */}
             </Routes>
           </div>

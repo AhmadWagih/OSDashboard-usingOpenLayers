@@ -10,29 +10,31 @@ import Symbology from "./symbology";
 import AddDataContextProvider from "../contexts/addData";
 import DashBoardModule from "./dashBoardModule";
 import Home from "./Common/home";
+import LoginO from './Common/LoginO';
+import Register from './Common/Register';
+
 
 
 const App = () => {
   const [logging, setLogging] = useState({
     loggedIn: false,
   });
-  // useEffect(()=>{
-  //   const data  = axios.get("http://localhost:3000/products").then(result=> result.data);
-  //   this.setLogging({ products: data });
-  // },[])
+
   const userLogIn = () => {
     //call backend
     setLogging({ ...logging, loggedIn: true });
   };
+
   return (
     <AddDataContextProvider>
       <Navbar loggedIn={logging.loggedIn} />
       <Routes>
         <Route path="/notfound" element={<NotFound />} />
-        <Route path="/login" element={<Login userLogIn={userLogIn} />} />
+        <Route path="/login" element={<LoginO userLogIn={userLogIn} />} />
+        <Route path="/register" element={<Register userLogIn={userLogIn} />} />
         <Route path="/notLoggedIn" element={<NotLoggedIn />} />
-        <Route exact path="/*" element={<AddData />} />
-        <Route path="/symbology" element={<Symbology />} />
+        <Route exact path="/addData/*" element={<AddData />} />
+        <Route path="/symbology/*" element={<Symbology />} />
         <Route path="/dashboard" element={<DashBoardModule />} />
         <Route exact path="/" element={<Navigate to="/home" />} />
         <Route

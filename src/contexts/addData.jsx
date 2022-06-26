@@ -1,6 +1,7 @@
 import { createContext, useState, useCallback,useEffect } from "react";
 import { toast } from "react-toastify";
-import { addMap,addDrawLayer,BaseMap } from './../helper/addMapHelper.js';
+import { addMap,addDrawLayer } from './../helper/addMapHelper.js';
+
 //#region
 import VectorLayer from "ol/layer/vector";
 import CircleStyle from "ol/style/circle";
@@ -16,11 +17,15 @@ import Point from "ol/geom/point";
 import proj from "ol/proj";
 import GeoJSON from "ol/format/geojson";
 import loadingstrategy from "ol/loadingstrategy";
+import { addNewLayer, getAllLayers } from './../APIs/layer';
 //#endregion
 
 export const AddDataContext = createContext();
 
 const AddDataContextProvider = ({ children }) => {
+
+  const [layers,setLayers] = useState([]);
+
   const [mapData, setMapData] = useState({
     map: null,
     baseMapsGroup: null,
@@ -37,6 +42,14 @@ const AddDataContextProvider = ({ children }) => {
     type: "point",
     drawAppear: false,
   });
+
+  useEffect(()=>{
+    async function  readLayers() {
+      const layers= await getAllLayers();
+      console.log(layers);
+    }
+    readLayers()
+  },[])
   
   //#region functions
   const addMapAndDrawLayer=useCallback(() => {
@@ -44,10 +57,6 @@ const AddDataContextProvider = ({ children }) => {
     let {drawLayer} = addDrawLayer(map)
     setMapData((mapData)=>({ ...mapData, map, baseMapsGroup, mapIsLoaded: true }));
   }, [addMap,addDrawLayer]);
-
-useEffect(()=>{
-  console.log(mapData);
-})
 
   const addLayerForm = () => {
     let overlaycontainer = document.getElementsByClassName(
@@ -161,7 +170,6 @@ useEffect(()=>{
           }),
         }),
       });
-      console.log(mapData.map);
       mapData.map.addLayer(olLayer);
     },
     [mapData]
@@ -169,7 +177,6 @@ useEffect(()=>{
 
   const finalView = useCallback(
     (data, CoordSys, longKey, latKey, attributes) => {
-      console.log(data);
       let features = [];
       let attNames = attributes.map((elm) => elm.name);
       let attKeys = attributes.map((elm) => elm.key);
@@ -223,14 +230,12 @@ useEffect(()=>{
     [featuresDraw]
   );
 
-  const save = () => {
+  const save = async(layerName) => {
     let GEOJSON_PARSER = new GeoJSON();
-    let features = mapData.dataSource.getFeatures()
-    let geoJsonArr = features.map(feature=>GEOJSON_PARSER.writeFeature(feature))
-    // let vectorLayerAsJson = GEOJSON_PARSER.writeFeatures(
-    //   mapData.dataSource.getFeatures()
-    // );
-    console.log(geoJsonArr);
+    let vectorLayerAsJson = GEOJSON_PARSER.writeFeatures(
+      mapData.dataSource.getFeatures()
+    );
+    await addNewLayer(layerName,vectorLayerAsJson);
   };
 
   const wfsGeoserver = (wfsurl) => {
@@ -267,10 +272,7 @@ useEffect(()=>{
   //#endregion
 
   return (
-    <AddDataContext.Provider
-      value={{
-        mapData,
-        addMapAndDrawLayer,
+    <AddDataContext.Provider value={{mapData,addMapAndDrawLayer,
         addLayerForm,
         changeType,
         drawing,

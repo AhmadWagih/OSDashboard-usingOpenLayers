@@ -16,6 +16,7 @@ import Fill from "ol/style/fill";
 import Stroke from "ol/style/stroke";
 import Style from "ol/style/style";
 import VectorSource from "ol/source/vector";
+import GeoJSON from "ol/format/geojson";
 //#endregion
 
 export const addMap = (target) => {
@@ -153,3 +154,32 @@ export const addBaseMapButton = (baseMapsGroup) => {
     }
   }
 };
+
+export const drawGeoJson=(map,geojson)=>{
+  let GEOJSON_PARSER = new GeoJSON();
+  let features = GEOJSON_PARSER.readFeatures(geojson);
+    let dataSource = new VectorSource({
+      features,
+    });
+    const olLayer = new VectorLayer({
+      source: dataSource,
+      style: new Style({
+        fill: new Fill({
+          color: "rgba(0, 0, 255)",
+        }),
+        stroke: new Stroke({
+          color: "#ff00e1",
+          width: 2,
+        }),
+        image: new CircleStyle({
+          radius: 3,
+          fill: new Fill({
+            color: "orange",
+          }),
+        }),
+      }),
+    });
+    map.addLayer(olLayer);
+
+    return features;
+}

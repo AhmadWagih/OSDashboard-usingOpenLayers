@@ -1,6 +1,7 @@
 import React, { useState, useCallback, useContext } from "react";
 import axios from "axios";
 import { AddDataContext } from "./../../contexts/addData";
+import { toast } from "react-toastify";
 
 const JsonFile = () => {
   const [state, setState] = useState({
@@ -13,6 +14,8 @@ const JsonFile = () => {
     selectedFile: null,
     data: null,
     attOptions: null,
+    isLoaded:false,
+    isViewed:false,
     attributes: [{ name: "", key: "" }], //name of attributes given by the user & the chosen fields from the json file
     method: null,
   });
@@ -38,13 +41,10 @@ const JsonFile = () => {
       let { value, type, name } = e.target;
       let attributes = [...state.attributes];
       if (type === "text") {
-        console.log(name);
-        console.log(attributes);
         attributes[+name]["name"] = value;
       } else {
         attributes[+name]["key"] = value;
       }
-      console.log(attributes);
       setState((u) => ({ ...u, attributes: attributes }));
     },
     [state.attributes]
@@ -53,8 +53,19 @@ const JsonFile = () => {
   const readData = async () => {
     // let url = "https://corona.lmao.ninja/v2/countries"; //url -----------------------
     if (state.method === "url") {
-      let { data } = await axios.get(state.jsonurl);
-      viewData(data);
+      try {
+        let { data } = await axios.get(state.jsonurl);
+        viewData(data);
+      } catch (error) {
+        toast.error("can't fetch data from "+state.jsonurl, {
+          position: "bottom-left",
+          autoClose: 1000,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          theme: "colored",
+        });
+      }
     } else if (state.method === "uploadFile") {
       const reader = new FileReader();
       reader.addEventListener("load", (event) => {
@@ -112,6 +123,7 @@ const JsonFile = () => {
   const radio = useCallback(
     (e) => {
       state.method = e.target.value;
+      state.isOpen=true;
       let style = [];
       if (state.method === "url") {
         style = [{ display: "none" }, { display: "block" }];
@@ -128,10 +140,64 @@ const JsonFile = () => {
     att.push({ name: "", key: "" });
     setState({ ...state, attributes: att });
   }, [state]);
+
+  const handleFinalView=()=>{
+    if(state.isLoaded){
+      finalView(
+        state.data,
+        state.CoordSys,
+        state.longKey,
+        state.latKey,
+        state.attributes
+      )
+      state.isViewed=true;
+    }else{
+      toast.error("Load data First", {
+        position: "bottom-left",
+        autoClose: 1000,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "colored",
+      });
+    }
+  }
+  const handleReadData=()=>{
+    if(state.isOpen){
+      readData()
+      state.isLoaded=true;
+    }else{
+      toast.error("please Enter Url or Choose File", {
+        position: "bottom-left",
+        autoClose: 1000,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "colored",
+      });
+    }
+  }
+
+  const handleSave=useCallback(()=>{
+    if (state.layerName!==""&&state.isViewed) {
+      save(state.layerName);
+    }else{
+      let message = state.layerName!==""? "You can't save without View data":" Add Layer Name ";
+      toast.error(message, {
+        position: "bottom-left",
+        autoClose: 1000,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "colored",
+      });
+    }
+  },[save,state])
+
   return (
     <>
       <div className="list-group-item">
-        <h3>JsonFile Import</h3>
+        <h4>JsonFile Import</h4>
       </div>
       <div className="component-div border-bot">
         <label htmlFor="layer-name" className="label-dark">
@@ -226,8 +292,8 @@ const JsonFile = () => {
           />
       </div>
       <div className="component-div border-bot">
-        <button onClick={readData} className="button-form">
-          check
+        <button onClick={handleReadData} className="button-form">
+          Load Data
         </button>
       </div>
       <div className="component-div border-bot">
@@ -297,20 +363,12 @@ const JsonFile = () => {
         </div>
       </div>
       <button
-        onClick={() =>
-          finalView(
-            state.data,
-            state.CoordSys,
-            state.longKey,
-            state.latKey,
-            state.attributes
-          )
-        }
+        onClick={handleFinalView}
         className="button-form "
       >
-        View
+        Preview
       </button>
-      <button onClick={() => save()} className="button-form ">
+      <button onClick={handleSave} className="button-form ">
         Save
       </button>
     </>

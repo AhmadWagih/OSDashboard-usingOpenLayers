@@ -1,15 +1,8 @@
 import { useState, useEffect, createContext,useCallback } from "react";
 
 import { v4 as uuid } from "uuid";
+import { addMap,drawGeoJson } from './../helper/addMapHelper';
 
-import GeoJSON from "ol/format/geojson";
-import VectorSource from "ol/source/vector";
-import VectorLayer from "ol/layer/vector";
-import CircleStyle from "ol/style/circle";
-import Fill from "ol/style/fill";
-import Stroke from "ol/style/stroke";
-import Style from "ol/style/style";
-import { addMap } from './../helper/addMapHelper';
 
 export const DashBoardContext = createContext();
 
@@ -21,30 +14,7 @@ const DashBoardContextProvider = ({ children }) => {
 
   // add Features from backend to map to Map
   const LoadMapData=useCallback((geojsonElm,map)=>{
-    let GEOJSON_PARSER = new GeoJSON();
-    let features = GEOJSON_PARSER.readFeatures(geojsonElm);
-    let dataSource = new VectorSource({
-      features,
-    });
-    const olLayer = new VectorLayer({
-      source: dataSource,
-      style: new Style({
-        fill: new Fill({
-          color: "rgba(0, 0, 255)",
-        }),
-        stroke: new Stroke({
-          color: "#ff00e1",
-          width: 2,
-        }),
-        image: new CircleStyle({
-          radius: 3,
-          fill: new Fill({
-            color: "orange",
-          }),
-        }),
-      }),
-    });
-    map.addLayer(olLayer);
+    let features = drawGeoJson(map,geojsonElm)
     let attributes = features[0].getKeys();
     setAttributes(attributes);
     let data = attributes.map((att) => {
