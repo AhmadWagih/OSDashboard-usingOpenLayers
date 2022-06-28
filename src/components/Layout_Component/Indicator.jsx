@@ -9,12 +9,13 @@ const Indicator = (props) => {
     alignTitle: "left",
     textSize: "",
     textColor: "#ff0000",
-    bgColor: "#ffffff",
+    bgColor: "#00cccc",
     attribute: "",
     agg: "sum",
     format: "default",
   });
 
+  // did mount - with every render
   useEffect(()=>{
     if (props.state) {
       console.log(props.state);
@@ -24,6 +25,7 @@ const Indicator = (props) => {
     }
   },[])
 
+  // submit button handle
   const submit = () => {
     console.log(state);
     if (state.title === "" || state.attribute === "") {
@@ -57,7 +59,7 @@ const Indicator = (props) => {
         </h4>
       </div>
       <div className="component-div border-bot">
-        <label htmlFor="componentName" className="label-dark">
+        <label htmlFor="component-name" className="label-dark">
           Title :
         </label>
         <input
@@ -126,13 +128,13 @@ const Indicator = (props) => {
         />
       </div>
       <div className="component-div border-bot">
-        <label htmlFor="componentName" className="label-dark w-75">
+        <label htmlFor="IndField" className="label-dark w-75">
           Indicator Field
         </label>
         <select
           name="attribute"
           className="drop-down w-75 p-0"
-          id="Field"
+          id="IndField"
           value={state.attribute}
           onChange={handleChange}
         >

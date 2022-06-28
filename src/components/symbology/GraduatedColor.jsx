@@ -1,7 +1,7 @@
 
 const GraduatedColor = () => {
     return ( <>
-    gradient Color
+    gradauted Colors
     </> );
 }
  

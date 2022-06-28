@@ -2,7 +2,7 @@
 const GraduatedSymbology = () => {
     return ( 
         <>
-        Gradient Size
+        Graduated Size
         </>
      );
 }

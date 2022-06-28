@@ -1,4 +1,4 @@
-import classes from "./widget.module.css";
+import classes from "../../styles/widget.module.css";
 import { useContext } from "react";
 import { DashBoardContext } from "./../../contexts/dashBoardContext";
 

@@ -1,6 +1,6 @@
 body {
   margin: 0;
-  background-color: darkgray;
+  background-color: #393e43;
 }
 h1,
 h2,
@@ -25,7 +25,7 @@ h3 {
   vertical-align: middle;
   font-family: monospace;
   font-weight: bolder;
-  color: black;
+  color: #393e43;
 }
 .mainPage:hover {
   background-color: rgb(246, 187, 109);
@@ -36,11 +36,11 @@ h3 {
 }
 .text-input {
   border: none;
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid #393e43;
   margin: 5px 0 5px 5px;
 }
 .button-form {
-  background-color: black;
+  background-color: #393e43;
   color: white;
   border-radius: 10px;
   width: 150px;
@@ -80,7 +80,7 @@ h3 {
 }
 .div-container {
   z-index: 10;
-  border: 1px solid black;
+  border: 1px solid #393e43;
   margin: 10px;
   align-items: center;
   width: 500px;
@@ -89,7 +89,7 @@ h3 {
   z-index: 100;
 }
 .containerTable {
-  border: 1px solid black;
+  border: 1px solid #393e43;
   margin: 20px;
   align-items: flex-start;
   width: 450px;
