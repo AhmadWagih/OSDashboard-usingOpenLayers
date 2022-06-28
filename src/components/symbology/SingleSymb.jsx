@@ -10,8 +10,8 @@ const SingleSymb = () => {
           Layer Name
         </label>
         <input
-          onChange={handleChange}
-          value={state.layerName}
+          // onChange={handleChange}
+          // value={state.layerName}
           name="layerName"
           className="text-input-dark"
           placeholder="Layer1"
