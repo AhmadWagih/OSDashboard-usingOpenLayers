@@ -7,8 +7,8 @@ import MyMap from "./Common/Map";
 import LeftPanel from './symbology/leftPanel';
 import SingleSymb from "./symbology/SingleSymb";
 import CatSymb from './symbology/CatSymb';
-import GradientSize from "./symbology/GradientSize";
-import GradientColor from "./symbology/GradientColor";
+import GraduatedSymbology from "./symbology/GraduatedSymbology";
+import GraduatedColor from "./symbology/GraduatedColor";
 
 
 const Symbology = () => {
@@ -35,8 +35,8 @@ const Symbology = () => {
           <Routes>
             <Route path="/" element={<SingleSymb/>} />
             <Route path="/Category" element={<CatSymb/>} />
-            <Route path="/GSize" element={<GradientSize/>} />
-            <Route path="/GColor" element={<GradientColor/>} />
+            <Route path="/GSize" element={<GraduatedSymbology/>} />
+            <Route path="/GColor" element={<GraduatedColor/>} />
           </Routes>
         </div>
         <div className="col">

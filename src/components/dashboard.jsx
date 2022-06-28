@@ -1,5 +1,4 @@
 import React, { useState, useCallback, useContext } from "react";
-
 import Indicator from "./Layout_Component/Indicator";
 import Text from "./Layout_Component/Text";
 import PieChart from "./Layout_Component/pieChart";

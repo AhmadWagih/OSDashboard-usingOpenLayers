@@ -1,5 +1,5 @@
 
-const GradientColor = () => {
+const GraduatedSymbology = () => {
     return ( 
         <>
         Gradient Size
@@ -7,4 +7,4 @@ const GradientColor = () => {
      );
 }
  
-export default GradientColor;
+export default GraduatedSymbology;

@@ -1,6 +1,15 @@
 
 const Home = () => {
-  return (<h1>hamada</h1>  );
+  return (
+    <>
+      <div className="HomeHeader">
+          Header
+      </div>
+      <div className="Home Body">
+        Body
+      </div> 
+    </>
+  );
 }
  
 export default Home;
