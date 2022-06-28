@@ -46,6 +46,7 @@ const alertError = (message, position = "top-center") => {
     theme: "colored",
   });
 };
+
 const alertSuccess = (message, position = "top-center") => {
     toast.success(message, {
       position: position,

@@ -5,7 +5,7 @@ import { LoginUser } from "../../APIs/auth";
 // import AuthContext from '../context/AuthProvider';
 // // import axios from 'axios';
 // // const LOGIN_URL ='/auth';
-import classes from "./index.module.css";
+import classes from "../../styles/index.module.css";
 import { ToastContainer } from 'react-toastify';
 
 const LoginO = () => {

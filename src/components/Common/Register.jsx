@@ -2,7 +2,7 @@ import { useRef, useState, useEffect } from "react";
 // import { faCheck, faTimes, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
-import classes from "./index.module.css"
+import classes from "../../styles/index.module.css"
 import {useNavigate} from "react-router-dom"
 import { RegisterUser } from './../../APIs/auth';
 import { ToastContainer } from 'react-toastify';
