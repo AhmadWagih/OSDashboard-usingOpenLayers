@@ -14,7 +14,7 @@ import GraduatedColor from "./symbology/GraduatedColor";
 const Symbology = () => {
 
   const [state,setState] = useState(null)
-
+  // didMount 
   useEffect(()=>{
     const {map,baseMapGroup} = addMap("map");
     async function  readLayer() {

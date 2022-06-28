@@ -18,7 +18,7 @@ const SingleSymb = () => {
           id="layer-name"
         />
       </div>
- 
+      
         
         </>
      );

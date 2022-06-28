@@ -9,9 +9,9 @@ export const getAllDashboards = async () => {
       return [];
     }
     return data.$values.map((elm) => ({
-      id: elm.id,
-      name: elm.layerName,
-      createdOn: elm.createdOn,
+      id: elm.Id,
+      name: elm.Name,
+      createdOn: elm.CreatedOn,
     }));
   } catch (error) {
     alertError(error, "bottom-center");
@@ -26,29 +26,38 @@ export const getDashboardById = async (id) => {
       return {};
     }
     return {
-      id: data.id,
-      name: data.layerName,
-      createdOn: data.createdOn,
-      geoJson: data.geoJson,
+      id: data.Id,
+      name: data.Name,
+      createdOn: data.CreatedOn,
+      widgets:data.Widgets  // check
+      // geoJson: data.GeoJson,
     };
   } catch (error) {
     alertError(error, "bottom-center");
   }
 };
 
-export const addNewDashboard = async (name, geoJson) => {
+export const addNewDashboard = async (name,widgets,layers) => {
   try {
-    const { data } = await client.post(resource, { layerName: name, geoJson });
+    const { data } = await client.post(resource, {
+      Name: name,
+      Widgets:widgets,
+      Layers:layers
+      });
     alertSuccess(data);
   } catch (error) {
     alertError(error);
   }
 };
 
-export const EditDashboard = async (id, name, geoJson) => {
+export const EditDashboard = async (id, name,layers, widgets) => {
   try {
-    const { data } = await client.post(resource + id, { layerName: name, geoJson });
-    if (data.Contains("no Layer with id:")) {
+    const { data } = await client.post(resource + id, { 
+      Name: name,
+      Layers:layers,
+      Widgets: widgets
+    });
+    if (data.Contains("No Dashboard with id:")) {
         alertError(data, "bottom-center")
     } else {
       alertSuccess(data, "bottom-center");

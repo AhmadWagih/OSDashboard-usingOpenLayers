@@ -7,7 +7,7 @@ import { DashBoardContext } from "./../contexts/dashBoardContext";
 import { ToastContainer } from "react-toastify";
 import PieChartWidget from "./widgets/PieChartWidget";
 import useGoogleCharts from "../helper/google";
-import { Container } from "react-bootstrap";
+// import { Container } from "react-bootstrap";
 
 const Dashboard = () => {
   const [rightPanel, setRightPanel] = useState({
