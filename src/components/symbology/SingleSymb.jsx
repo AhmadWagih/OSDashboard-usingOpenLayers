@@ -1,8 +1,10 @@
 import classes from "../../styles/symbologies.module.css";
 import Style from "ol/style/style";
 import Icon from "ol/style/icon";
+import { useContext } from 'react';
+import { SymbologyContext } from './../../contexts/symbologyContext';
 
-const SingleSymb = ({changeStyle}) => {
+const SingleSymb = () => {
   
   
   const handleChange = () => {
@@ -10,6 +12,8 @@ const SingleSymb = ({changeStyle}) => {
     // search for symbol
     // handle assign symbol to layer
   };
+
+  const {changeStyle,saveStyle} = useContext(SymbologyContext)
 
   const handleSubmit = () => {
     const googleLocIcon = new Style({
@@ -27,19 +31,6 @@ const SingleSymb = ({changeStyle}) => {
     <>
       <div className="list-group-item">
         <h4>Single Symbology</h4>
-      </div>
-      <div className="component-div border-bot">
-        <label htmlFor="layer-name" className="label-dark">
-          Layer Name
-        </label>
-        <input
-          // onChange={handleChange}
-          // value={state.layerName}
-          name="layerName"
-          className="text-input-dark"
-          placeholder="Layer1"
-          id="layer-name"
-        />
       </div>
       <div className="component-div border-bot">
         <label htmlFor="symbol" className="label-dark">
@@ -60,7 +51,7 @@ const SingleSymb = ({changeStyle}) => {
         ></img>
         
         </div>
-      <button className={classes.btn} onClick={handleSubmit}>Apply</button>
+      <button className={classes.btn} onClick={saveStyle}>Apply</button>
     </>
   );
 };

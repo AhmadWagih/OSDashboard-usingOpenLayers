@@ -1,7 +1,8 @@
-import React, { useState, useCallback, useEffect } from "react";
-import { getLayerById } from "../APIs/layer";
-import { addMap, drawGeoJson } from "../helper/addMapHelper";
+import React, { useContext, useEffect } from "react";
+
+import { addMap } from "../helper/addMapHelper";
 import { Routes, Route } from "react-router-dom";
+
 
 import MyMap from "./Common/Map";
 import LeftPanel from "./symbology/leftPanel";
@@ -9,27 +10,23 @@ import SingleSymb from "./symbology/SingleSymb";
 import CatSymb from "./symbology/CatSymb";
 import GraduatedSymbology from "./symbology/GraduatedSymbology";
 import GraduatedColor from "./symbology/GraduatedColor";
+import { SymbologyContext } from './../contexts/symbologyContext';
+import {ToastContainer} from "react-toastify";
 
 const Symbology = () => {
-  const [features, setFeatures] = useState(null);
 
-  const changeStyle = (style) => {
-    features.map((f) => f.setStyle(style));
-  };
+  const {readLayer}=useContext(SymbologyContext); 
 
   // didMount -
   useEffect(() => {
     const { map, baseMapGroup } = addMap("map");
-    async function readLayer() {
-      const layer = await getLayerById(5);
-      let { features } = drawGeoJson(map, layer.geoJson);
-      setFeatures(features);
-    }
-    readLayer();
+    
+    readLayer(map);
   }, []);
 
   return (
     <>
+    <ToastContainer/>
       <div className="row m-0">
         <div className="column-1">
           <LeftPanel />
@@ -38,7 +35,7 @@ const Symbology = () => {
           <Routes>
             <Route
               path="/"
-              element={<SingleSymb changeStyle={changeStyle} />}
+              element={<SingleSymb/>}
             />
             <Route path="/Category" element={<CatSymb />} />
             <Route path="/GSize" element={<GraduatedSymbology />} />

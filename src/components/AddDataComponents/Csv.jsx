@@ -35,9 +35,12 @@ const Csv = () => {
     const reader = new FileReader();
     reader.addEventListener("load", (event) => {
       viewData(event.target.result);
+      state.isLoaded=true;
+      console.log(state.isLoaded);
     });
     reader.readAsText(state.selectedFile[0]);
   };
+
   const handleChangeAtt = useCallback(
     (e) => {
       let { value, type, name } = e.target;
@@ -52,6 +55,7 @@ const Csv = () => {
     },
     [state.attributes]
   );
+
   const viewData = (data) => {
     let arr = data.split("\n");
     let dataKeys = arr[0].split(",");
@@ -103,6 +107,7 @@ const Csv = () => {
   };
 
   const handleFinalView=()=>{
+    console.log(state.isLoaded);
     if(state.isLoaded){
       finalView(
         state.data,
@@ -114,21 +119,6 @@ const Csv = () => {
       state.isViewed=true;
     }else{
       toast.error("Load data First", {
-        position: "bottom-left",
-        autoClose: 1000,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        theme: "colored",
-      });
-    }
-  }
-  const handleReadData=()=>{
-    if(state.isOpen){
-      readData()
-      state.isLoaded=true;
-    }else{
-      toast.error("please Enter Url or Choose File", {
         position: "bottom-left",
         autoClose: 1000,
         closeOnClick: true,
@@ -222,7 +212,7 @@ const Csv = () => {
         />
       </div>
       <div className="component-div border-bot">
-        <button onClick={handleReadData} className="button-form">
+        <button onClick={readData} className="button-form">
           check
         </button>
       </div>

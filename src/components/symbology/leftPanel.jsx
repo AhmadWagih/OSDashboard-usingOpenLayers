@@ -23,7 +23,7 @@ const LeftPanel = () => {
           </NavLink>
         <NavLink className="navLink" to="/Symbology/GColor">
             <div className="p-2 toolti">
-            <i class="fa-solid fa-paintbrush"></i>
+            <i className="fa-solid fa-paintbrush"></i>
               <span className="tooltiptext ">GradColors</span>
             </div>
           </NavLink>

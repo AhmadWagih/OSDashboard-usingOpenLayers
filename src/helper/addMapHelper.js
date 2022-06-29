@@ -68,11 +68,11 @@ export const addMap = (target) => {
   addBaseMapButton(baseMapsGroup);
   return { map, baseMapsGroup };
 };
-export const addDrawLayer = (map) => {
+export const addDrawLayer = (map, style) => {
   let drawSource = new VectorSource({});
-  let drawLayer = new VectorLayer({
-    source: drawSource,
-    style: new Style({
+
+  if (!style) {
+    style = new Style({
       fill: new Fill({
         color: "rgba(0, 0, 255, 0.2)",
       }),
@@ -84,10 +84,13 @@ export const addDrawLayer = (map) => {
         radius: 4,
         fill: new Fill({
           color: "blue",
-        
         }),
       }),
-    }),
+    });
+  }
+  let drawLayer = new VectorLayer({
+    source: drawSource,
+    style: style,
   });
   map.addLayer(drawLayer);
 
@@ -144,7 +147,9 @@ export const addBaseMapButton = (baseMapsGroup) => {
       img.id = baseMap;
       img.src = require(`../imgs/${baseMap}.png`);
       img.alt = baseMap;
-      img.addEventListener("click", (e) => changeBaseMap(e.target.id,baseMapsGroup));
+      img.addEventListener("click", (e) =>
+        changeBaseMap(e.target.id, baseMapsGroup)
+      );
       rightPanel.appendChild(img);
 
       let zoomPanel = document.getElementsByClassName(
@@ -156,31 +161,34 @@ export const addBaseMapButton = (baseMapsGroup) => {
   }
 };
 // make datasource with layer d=features inside
-export const drawGeoJson=(map,geojson)=>{
+export const drawGeoJson = (map, geojson,style) => {
   let GEOJSON_PARSER = new GeoJSON();
   let features = GEOJSON_PARSER.readFeatures(geojson);
-    let dataSource = new VectorSource({
-      features,
-    });
-    const olLayer = new VectorLayer({
-      source: dataSource,
-      style: new Style({
+  let dataSource = new VectorSource({
+    features,
+  });
+  if (!style) {
+    style = new Style({
+      fill: new Fill({
+        color: "rgba(0, 0, 255, 0.2)",
+      }),
+      stroke: new Stroke({
+        color: "#ff00e1",
+        width: 2,
+      }),
+      image: new CircleStyle({
+        radius: 4,
         fill: new Fill({
-          color: "rgba(0, 0, 255)",
-        }),
-        stroke: new Stroke({
-          color: "#ff00e1",
-          width: 2,
-        }),
-        image: new CircleStyle({
-          radius: 3,
-          fill: new Fill({
-            color: "orange",
-          }),
+          color: "blue",
         }),
       }),
     });
-    map.addLayer(olLayer);
+  }
+  const olLayer = new VectorLayer({
+    source: dataSource,
+    style: style
+  });
+  map.addLayer(olLayer);
 
-    return {dataSource, features};
-}
+  return  features;
+};
