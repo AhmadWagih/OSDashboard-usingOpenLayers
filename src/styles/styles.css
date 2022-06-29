@@ -5,7 +5,7 @@ body {
 h1,
 h2,
 h3 {
-  font-family: monospace;
+  font-family: "Google Sans",Roboto,Arial,sans-serif;
   font-weight: bolder;
 }
 .flexContainer {
@@ -23,7 +23,7 @@ h3 {
   font-size: large;
   display: table-cell;
   vertical-align: middle;
-  font-family: monospace;
+  font-family: "Google Sans",Roboto,Arial,sans-serif;
   font-weight: bolder;
   color: #393e43;
 }
@@ -173,7 +173,7 @@ h3 {
   cursor: pointer;
   position: relative;
   width: 100%;
-  font-family: Calibri;
+  font-family: "Google Sans",Roboto,Arial,sans-serif;
   color: white;
   font-size: 16px;
   transition: background-color 2s;
@@ -264,7 +264,7 @@ h3 {
 }
 
 .component-div {
-  font-family: "Poppins";
+  font-family: "Google Sans",Roboto,Arial,sans-serif;
   display: flex;
   flex-direction: row;
   justify-content: space-between;

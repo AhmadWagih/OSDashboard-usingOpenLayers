@@ -37,12 +37,12 @@ export const getDashboardById = async (id) => {
   }
 };
 
-export const addNewDashboard = async (name,widgets,layers) => {
+export const addNewDashboard = async (name,widgets,layersIds) => {
   try {
     const { data } = await client.post(resource, {
       Name: name,
       Widgets:widgets,
-      Layers:layers
+      LayersIds:layersIds
       });
     alertSuccess(data);
   } catch (error) {

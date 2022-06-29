@@ -7,7 +7,7 @@
   align-items: center;
   min-height: 100vh;
   padding: 1rem 0.5rem;
-  font-family: Helvetica, Arial, sans-serif;
+  font-family: "Google Sans",Roboto,Arial,sans-serif;
 }
 
 a,
@@ -63,9 +63,9 @@ textarea {
 
 .line {
   display: inline-block;
-  font-family: "Nunito";
+  font-family: "Google Sans",Roboto,Arial,sans-serif;
 }
 
 .headerform {
-  font-family: "Nunito";
+  font-family: "Google Sans",Roboto,Arial,sans-serif;
 }

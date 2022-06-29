@@ -4,7 +4,7 @@ import { DashBoardContext } from "../../contexts/dashBoardContext";
 
 const Indicator = (props) => {
   const { attributes, createWidget } = useContext(DashBoardContext);
-  const [state, setState] = useState({
+  const [state, setState] = useState({    // initialize state
     title: "",
     alignTitle: "left",
     textSize: "",
