@@ -55,7 +55,7 @@ const SingleSymb = ({changeStyle}) => {
         />
       </div>
       <div className={classes.Body}>
-        <img src={require("../../imgs/icons8-google-maps-48.png")}
+        <img alt="symbology" src={require("../../imgs/icons8-google-maps-48.png")}
         onClick={handleSubmit}
         ></img>
         
