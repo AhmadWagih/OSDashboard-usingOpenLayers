@@ -27,13 +27,13 @@ h3 {
   font-weight: bolder;
   color: #393e43;
 }
-.mainPage:hover {
+/* .mainPage:hover {
   background-color: rgb(246, 187, 109);
   height: 120px;
   width: 190px;
   border-color: rgb(65, 0, 18);
   font-size: larger;
-}
+} */
 .text-input {
   border: none;
   border-bottom: 1px solid #393e43;
@@ -75,7 +75,7 @@ h3 {
   width: auto;
   margin: 10px auto;
   padding: 10px;
-  background-color: white;
+  background-color: #393e43;
   box-shadow: -2px -1px 15px 7px rgba(0,0,0,0.5);
 }
 .div-container {
@@ -189,9 +189,9 @@ h3 {
 .column-1 {
   font-size: 25px;
   width: 60px;
-  background-color: black;
+  background-color: #323232;
   height: 92vh;
-  color: white;
+  color: #404d54;
   align-content: center;
   padding-left: 12px;
   padding-top: 40px;
@@ -225,10 +225,11 @@ h3 {
 .list-elements {
   margin: 0px 5px;
   padding: 5px;
-  background-color: black;
+  background-color: #393e43;
   color: white;
   font-size: 20px;
   border-bottom: 5px solid rgba(255, 255, 255, 0.25);
+  border-radius: 10px;
 }
 .list-elements:hover {
   color: wheat;
@@ -270,7 +271,7 @@ h3 {
   align-items: center;
   margin: 0px 7px;
   padding: 5px;
-  color: white;
+  color: #393e43;
   font-size: 16px;
 }
 .border-bot {
@@ -320,4 +321,39 @@ Input[type="file"] {
   color: gray;
   height: 30px;
   width: 123px;
+}
+
+.button-form:hover {
+  background: #F6F9FE;
+  color: #174ea6;
+}
+
+.button-form:active {
+  box-shadow: 0 4px 4px 0 rgb(60 64 67 / 30%), 0 8px 12px 6px rgb(60 64 67 / 15%);
+  outline: none;
+}
+
+.button-form:focus {
+  outline: none;
+  border: 2px solid #4285f4;
+}
+
+.button-form:not(:disabled) {
+  box-shadow: rgba(60, 64, 67, .3) 0 1px 3px 0, rgba(60, 64, 67, .15) 0 4px 8px 3px;
+}
+
+.button-form:not(:disabled):hover {
+  box-shadow: rgba(60, 64, 67, .3) 0 2px 3px 0, rgba(60, 64, 67, .15) 0 6px 10px 4px;
+}
+
+.button-form:not(:disabled):focus {
+  box-shadow: rgba(60, 64, 67, .3) 0 1px 3px 0, rgba(60, 64, 67, .15) 0 4px 8px 3px;
+}
+
+.button-form:not(:disabled):active {
+  box-shadow: rgba(60, 64, 67, .3) 0 4px 4px 0, rgba(60, 64, 67, .15) 0 8px 12px 6px;
+}
+
+.button-form:disabled {
+  box-shadow: rgba(60, 64, 67, .3) 0 1px 3px 0, rgba(60, 64, 67, .15) 0 4px 8px 3px;
 }

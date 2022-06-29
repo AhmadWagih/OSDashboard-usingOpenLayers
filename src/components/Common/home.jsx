@@ -1,11 +1,11 @@
-
+import classes from "../../styles/HomePage.module.css"
 const Home = () => {
   return (
     <>
-      <div className="HomeHeader">
+      <div className={classes.Head}>
           Header
       </div>
-      <div className="Home Body">
+      <div className={classes.Body}>
         Body
       </div> 
     </>
