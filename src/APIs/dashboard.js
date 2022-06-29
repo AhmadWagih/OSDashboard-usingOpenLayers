@@ -29,8 +29,12 @@ export const getDashboardById = async (id) => {
       id: data.Id,
       name: data.Name,
       createdOn: data.CreatedOn,
-      widgets:data.Widgets  // check
-      // geoJson: data.GeoJson,
+      widgets:data.Widgets, 
+      layers: data.Layers.map((ly)=>({
+        id:ly.id,
+        name:ly.layerName,
+        geoJson:ly.geoJson,
+      }))
     };
   } catch (error) {
     alertError(error, "bottom-center");
@@ -50,11 +54,11 @@ export const addNewDashboard = async (name,widgets,layersIds) => {
   }
 };
 
-export const EditDashboard = async (id, name,layers, widgets) => {
+export const EditDashboard = async (id, name,layersIds, widgets) => {
   try {
-    const { data } = await client.post(resource + id, { 
+    const { data } = await client.put(resource + id, { 
       Name: name,
-      Layers:layers,
+      LayersIds:layersIds,
       Widgets: widgets
     });
     if (data.Contains("No Dashboard with id:")) {

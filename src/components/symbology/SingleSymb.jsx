@@ -1,10 +1,26 @@
 import classes from "../../styles/symbologies.module.css";
+import Style from "ol/style/style";
+import Icon from "ol/style/icon";
 
-const SingleSymb = () => {
+const SingleSymb = ({changeStyle}) => {
+  
+  
   const handleChange = () => {
     // get layer (by id or name "prefered")
     // search for symbol
     // handle assign symbol to layer
+  };
+
+  const handleSubmit = () => {
+    const googleLocIcon = new Style({
+      image: new Icon({
+        anchor: [0.5, 5],
+        anchorXUnits: "fraction",
+        anchorYUnits: "pixels",
+        src: require("../../imgs/icons8-google-maps-48.png"),
+      }),
+    });
+    changeStyle(googleLocIcon);
   };
 
   return (
@@ -39,11 +55,12 @@ const SingleSymb = () => {
         />
       </div>
       <div className={classes.Body}>
-        List of available symbologies
-      </div>
-      <button className={classes.btn}>
-        Apply
-      </button>
+        <img src={require("../../imgs/icons8-google-maps-48.png")}
+        onClick={handleSubmit}
+        ></img>
+        
+        </div>
+      <button className={classes.btn} onClick={handleSubmit}>Apply</button>
     </>
   );
 };

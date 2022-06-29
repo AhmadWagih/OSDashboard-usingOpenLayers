@@ -84,6 +84,7 @@ export const addDrawLayer = (map) => {
         radius: 4,
         fill: new Fill({
           color: "blue",
+        
         }),
       }),
     }),
@@ -154,7 +155,7 @@ export const addBaseMapButton = (baseMapsGroup) => {
     }
   }
 };
-
+// make datasource with layer d=features inside
 export const drawGeoJson=(map,geojson)=>{
   let GEOJSON_PARSER = new GeoJSON();
   let features = GEOJSON_PARSER.readFeatures(geojson);
@@ -181,5 +182,5 @@ export const drawGeoJson=(map,geojson)=>{
     });
     map.addLayer(olLayer);
 
-    return features;
+    return {dataSource, features};
 }

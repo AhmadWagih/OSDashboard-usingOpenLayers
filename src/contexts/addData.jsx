@@ -25,7 +25,8 @@ export const AddDataContext = createContext();
 const AddDataContextProvider = ({ children }) => {
 
   const [layers,setLayers] = useState([]);
-
+  
+  // initialize state
   const [mapData, setMapData] = useState({
     map: null,
     baseMapsGroup: null,
