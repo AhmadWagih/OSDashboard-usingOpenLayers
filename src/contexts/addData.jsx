@@ -1,23 +1,23 @@
 import { createContext, useState, useCallback,useEffect } from "react";
 import { toast } from "react-toastify";
 import { addMap,addDrawLayer } from './../helper/addMapHelper.js';
+import { addNewLayer, getAllLayers } from './../APIs/layer';
 
 //#region
-import VectorLayer from "ol/layer/vector";
-import CircleStyle from "ol/style/circle";
-import Fill from "ol/style/fill";
-import Stroke from "ol/style/stroke";
-import Style from "ol/style/style";
-import olDraw from "ol/interaction/draw";
-import VectorSource from "ol/source/vector";
-import Modify from "ol/interaction/modify";
-import Snap from "ol/interaction/snap";
-import Feature from "ol/feature";
-import Point from "ol/geom/point";
-import proj from "ol/proj";
-import GeoJSON from "ol/format/geojson";
-import loadingstrategy from "ol/loadingstrategy";
-import { addNewLayer, getAllLayers } from './../APIs/layer';
+import VectorLayer from "ol/layer/Vector";
+import CircleStyle from "ol/style/Circle";
+import Fill from "ol/style/Fill";
+import Stroke from "ol/style/Stroke";
+import Style from "ol/style/Style";
+import olDraw from "ol/interaction/Draw";
+import VectorSource from "ol/source/Vector";
+import Modify from "ol/interaction/Modify";
+import Snap from "ol/interaction/Snap";
+import Feature from "ol/Feature";
+import Point from "ol/geom/Point";
+import {Projection} from "ol/proj";
+import GeoJSON from "ol/format/GeoJSON";
+import {bbox as bboxStrategy} from 'ol/loadingstrategy';;
 //#endregion
 
 export const AddDataContext = createContext();
@@ -198,7 +198,7 @@ const AddDataContextProvider = ({ children }) => {
         // console.log(coord);
         let feature = new Feature({
           geometry: new Point(
-            proj.transform(coord, CoordSys ? CoordSys : "EPSG4236", "EPSG:3857")
+            Projection.transform(coord, CoordSys ? CoordSys : "EPSG4236", "EPSG:3857")
           ),
         });
         for (let i = 0; i < attNames.length; i++) {
@@ -247,7 +247,7 @@ const AddDataContextProvider = ({ children }) => {
               ",EPSG:3857"
             );
           },
-          strategy: loadingstrategy.bbox,
+          strategy: bboxStrategy,
         }),
       });
       mapData.map.addLayer(wfslayer);

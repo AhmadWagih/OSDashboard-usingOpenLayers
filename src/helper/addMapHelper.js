@@ -1,22 +1,20 @@
 //#region
-import Map from "ol/map";
-import View from "ol/view";
-import TileLayer from "ol/layer/tile";
-import XYZ from "ol/source/xyz";
-import OSM from "ol/source/osm";
-import ScaleLine from "ol/control/scaleline";
-import Rotate from "ol/control/rotate";
-import OverViewMap from "ol/control/overviewmap";
-import FullScreen from "ol/control/fullscreen";
-import control from "ol/control.js";
-import Group from "ol/layer/group.js";
-import VectorLayer from "ol/layer/vector";
-import CircleStyle from "ol/style/circle";
-import Fill from "ol/style/fill";
-import Stroke from "ol/style/stroke";
-import Style from "ol/style/style";
-import VectorSource from "ol/source/vector";
-import GeoJSON from "ol/format/geojson";
+import Map from "ol/Map";
+import View from "ol/View";
+import TileLayer from "ol/layer/Tile";
+import XYZ from "ol/source/XYZ";
+import OSM from "ol/source/OSM";
+import {FullScreen,OverviewMap,Rotate,ScaleLine,defaults} from "ol/control.js";
+import Group from "ol/layer/Group.js";
+import VectorLayer from "ol/layer/Vector";
+import CircleStyle from "ol/style/Circle";
+import Fill from "ol/style/Fill";
+import Stroke from "ol/style/Stroke";
+import Style from "ol/style/Style";
+import VectorSource from "ol/source/Vector";
+import GeoJSON from "ol/format/GeoJSON";
+import FontSymbol from "ol-ext/style/FontAwesome5Def";
+
 //#endregion
 
 export const addMap = (target) => {
@@ -51,7 +49,7 @@ export const addMap = (target) => {
   });
   let map = new Map({
     target: target || "map",
-    controls: control.defaults({
+    controls: defaults({
       attribution: false,
     }),
     view: new View({
@@ -63,7 +61,7 @@ export const addMap = (target) => {
   //--- add controllers
   map.addControl(new FullScreen());
   map.addControl(new ScaleLine());
-  map.addControl(new OverViewMap());
+  map.addControl(new OverviewMap());
   map.addControl(new Rotate());
   addBaseMapButton(baseMapsGroup);
   return { map, baseMapsGroup };
@@ -169,20 +167,22 @@ export const drawGeoJson = (map, geojson,style) => {
   });
   if (!style) {
     style = new Style({
-      fill: new Fill({
-        color: "rgba(0, 0, 255, 0.2)",
-      }),
-      stroke: new Stroke({
-        color: "#ff00e1",
-        width: 2,
-      }),
-      image: new CircleStyle({
-        radius: 4,
+      image: new FontSymbol({
+        glyph: 'fa-check-circle',
+        form: 'circle',
+        radius: 5,
+        offsetY: -15,
+        gradient: true,
+        fontSize: 1.0,
+        rotation: 0,
+        rotateWithView: false,
+        color: 'white',
         fill: new Fill({
-          color: "blue",
+            color: 'green',
         }),
       }),
-    });
+  });
+    console.log(style);
   }
   const olLayer = new VectorLayer({
     source: dataSource,

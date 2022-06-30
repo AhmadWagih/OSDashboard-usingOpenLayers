@@ -1,10 +1,12 @@
 import classes from "../../styles/symbologies.module.css";
-import Style from "ol/style/style";
-import Icon from "ol/style/icon";
 import { useContext } from 'react';
 import { SymbologyContext } from './../../contexts/symbologyContext';
-import Text from "ol/style/text";
-import Fill from "ol/style/fill";
+
+import Text from "ol/style/Text";
+import Fill from "ol/style/Fill";
+import Style from "ol/style/Style";
+import Icon from "ol/style/Icon";
+import FontSymbol from 'ol-ext/style/FontSymbol';
 
 const SingleSymb = () => {
   
@@ -25,16 +27,21 @@ const SingleSymb = () => {
       //   anchorYUnits: "pixels",
       //   src: require("../../imgs/icons8-google-maps-48.png"),
       // }),
-      text: new Text({
-        text: '\ue062',
-        font : 'normal 18px "Glyphicons Halflings"',
-        textBaseline: 'Bottom',
+      image: new FontSymbol({
+        glyph: 'fa-check-circle',
+        form: 'none',
+        radius: 5,
+        offsetY: -15,
+        gradient: true,
+        fontSize: 1.0,
+        rotation: 0,
+        rotateWithView: false,
+        color: 'white',
         fill: new Fill({
-            color: 'blue',
-        })          
+            color: 'green',
+        }),
+      }),     
     })
-      
-    });
     changeStyle(googleLocIcon);
   };
 
@@ -59,8 +66,8 @@ const SingleSymb = () => {
       <div className={classes.Body}>
         <img alt="symbology" src={require("../../imgs/icons8-google-maps-48.png")}
         onClick={handleSubmit}
-        ></img>
-        <i class="bi bi-alarm"></i>
+        />
+        <span className="custom-icon"></span>
         </div>
       <button className={classes.btn} onClick={saveStyle}>Apply</button>
     </>
