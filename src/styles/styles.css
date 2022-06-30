@@ -357,3 +357,50 @@ Input[type="file"] {
 .button-form:disabled {
   box-shadow: rgba(60, 64, 67, .3) 0 1px 3px 0, rgba(60, 64, 67, .15) 0 4px 8px 3px;
 }
+
+
+
+.btn{
+  margin-right: 11px;
+  margin-bottom: 10px;
+}
+
+.card{
+  width:320px;
+  margin: 15px;
+  align-items: center;
+}
+
+.iconCard{
+  width:100%;
+
+  position:-ms-page;
+}
+.card:hover{
+  cursor:pointer;
+  background-color:rgb(170, 170, 170);
+}
+
+.myData-div{
+  height: 60ch;
+  width:100%;
+  background-color: white;
+}
+
+.spinner-div{
+  height: 60ch;
+  width:100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.spinner-border{
+  margin: auto auto;
+}
+.overLay{
+  background-color: rgb(64, 77, 84,.8);
+}
+.title-alert{
+  color: red;
+  background-color: red;
+}

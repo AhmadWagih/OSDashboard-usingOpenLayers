@@ -43,14 +43,6 @@ const AddDataContextProvider = ({ children }) => {
     type: "point",
     drawAppear: false,
   });
-
-  useEffect(()=>{
-    async function  readLayers() {
-      const layers= await getAllLayers();
-      console.log(layers);
-    }
-    readLayers()
-  },[])
   
   //#region functions
   const addMapAndDrawLayer=useCallback(() => {

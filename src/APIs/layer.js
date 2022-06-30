@@ -64,6 +64,7 @@ export const DeleteLayer = async (id) => {
   try {
     const { data } = await client.delete(resource + id);
     alertSuccess(data, "bottom-center");
+    return "ok";
   } catch (error) {
     alertError(error, "bottom-center");
   }

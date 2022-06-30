@@ -1,8 +1,7 @@
 import React, { useContext, useEffect } from "react";
 
 import { addMap } from "../helper/addMapHelper";
-import { Routes, Route } from "react-router-dom";
-
+import { Routes, Route,useParams } from "react-router-dom";
 
 import MyMap from "./Common/Map";
 import LeftPanel from "./symbology/leftPanel";
@@ -16,12 +15,11 @@ import {ToastContainer} from "react-toastify";
 const Symbology = () => {
 
   const {readLayer}=useContext(SymbologyContext); 
-
+  let {layerId} = useParams()
   // didMount -
   useEffect(() => {
     const { map, baseMapGroup } = addMap("map");
-    
-    readLayer(map);
+    readLayer(map,layerId);
   }, []);
 
   return (

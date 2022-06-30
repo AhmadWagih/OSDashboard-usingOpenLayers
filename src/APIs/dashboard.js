@@ -8,10 +8,11 @@ export const getAllDashboards = async () => {
     if (typeof data === "string") {
       return [];
     }
+    console.log(data);
     return data.$values.map((elm) => ({
-      id: elm.Id,
-      name: elm.Name,
-      createdOn: elm.CreatedOn,
+      id: elm.id,
+      name: elm.name,
+      createdOn: elm.createdOn,
     }));
   } catch (error) {
     alertError(error, "bottom-center");
@@ -26,11 +27,11 @@ export const getDashboardById = async (id) => {
       return {};
     }
     return {
-      id: data.Id,
-      name: data.Name,
-      createdOn: data.CreatedOn,
-      widgets:data.Widgets, 
-      layers: data.Layers.map((ly)=>({
+      id: data.id,
+      name: data.name,
+      createdOn: data.createdOn,
+      widgets:data.widgets, 
+      layers: data.layers.map((ly)=>({
         id:ly.id,
         name:ly.layerName,
         geoJson:ly.geoJson,
@@ -44,9 +45,9 @@ export const getDashboardById = async (id) => {
 export const addNewDashboard = async (name,widgets,layersIds) => {
   try {
     const { data } = await client.post(resource, {
-      Name: name,
-      Widgets:widgets,
-      LayersIds:layersIds
+      name: name,
+      widgets:widgets,
+      layersIds:layersIds
       });
     alertSuccess(data);
   } catch (error) {
@@ -57,9 +58,9 @@ export const addNewDashboard = async (name,widgets,layersIds) => {
 export const EditDashboard = async (id, name,layersIds, widgets) => {
   try {
     const { data } = await client.put(resource + id, { 
-      Name: name,
-      LayersIds:layersIds,
-      Widgets: widgets
+      name: name,
+      widgets:widgets,
+      layersIds:layersIds
     });
     if (data.Contains("No Dashboard with id:")) {
         alertError(data, "bottom-center")

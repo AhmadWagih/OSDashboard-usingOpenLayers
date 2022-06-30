@@ -1,8 +1,6 @@
-import { useState, useEffect, createContext, useCallback } from "react";
-
+import { useState, createContext, useCallback } from "react";
 import { v4 as uuid } from "uuid";
-import { addMap, drawGeoJson } from "./../helper/addMapHelper";
-import { getLayerById } from "../APIs/layer";
+import { drawGeoJson } from "./../helper/addMapHelper";
 
 export const DashBoardContext = createContext();
 
@@ -112,23 +110,9 @@ const DashBoardContextProvider = ({ children }) => {
     }
   };
 
-  useEffect(() => {
-    (async () => {
-      //call Backend
-      const layerData = await getLayerById(2);
-
-      // create map
-      const { map, baseMapGroup } = addMap("map");
-
-      // add Features
-      console.log(layerData);
-      LoadMapData(map, layerData.geoJson, layerData.style);
-    })();
-  }, [LoadMapData]);
-
   return (
     <DashBoardContext.Provider
-      value={{ attributes, widgets, createWidget, deleteWidget }}
+      value={{ attributes, widgets, createWidget, deleteWidget ,LoadMapData }}
     >
       {children}
     </DashBoardContext.Provider>

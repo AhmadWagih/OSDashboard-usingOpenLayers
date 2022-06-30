@@ -9,10 +9,9 @@ export const SymbologyContext = createContext();
 const SymbologyContextProvider = ({ children }) => {
 
   const [features, setFeatures] = useState(null);
-  const layerId = 1;
   const [layer,setLayer] = useState(null);
 
-  async function readLayer(map) {
+  async function readLayer(map,layerId) {
     const layer = await getLayerById(layerId);
     let features = drawGeoJson(map, layer.geoJson, layer.style);
     setLayer(layer);
@@ -25,7 +24,7 @@ const SymbologyContextProvider = ({ children }) => {
   };
 
   const saveStyle = ()=>{
-    EditLayer(layerId,layer)
+    EditLayer(layer.id,layer)
   }
 
   return (

@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useContext } from "react";
+import React, { useState, useCallback, useContext, useEffect } from "react";
 import Indicator from "./Layout_Component/Indicator";
 import Text from "./Layout_Component/Text";
 import PieChart from "./Layout_Component/pieChart";
@@ -7,15 +7,18 @@ import { DashBoardContext } from "./../contexts/dashBoardContext";
 import { ToastContainer } from "react-toastify";
 import PieChartWidget from "./widgets/PieChartWidget";
 import useGoogleCharts from "../helper/google";
-// import { Container } from "react-bootstrap";
+import { useParams } from 'react-router-dom';
+import { getLayerById } from "../APIs/layer";
+import { addMap } from "../helper/addMapHelper";
+
 
 const Dashboard = () => {
   const [rightPanel, setRightPanel] = useState({
     component: null,
     display: "none",
   });
-
-  const { widgets } = useContext(DashBoardContext);
+  const {dashId} =useParams()
+  const { widgets,LoadMapData } = useContext(DashBoardContext);
   const { indicator,chart } = widgets;
 
   const google = useGoogleCharts();
@@ -99,6 +102,20 @@ const Dashboard = () => {
     }
     setRightPanel({ component, style });
   };
+
+  useEffect(() => {
+    (async () => {
+      //call Backend
+      const layerData = await getLayerById(dashId);
+
+      // create map
+      const { map, baseMapGroup } = addMap("map");
+
+      // add Features
+      LoadMapData(map, layerData.geoJson, layerData.style);
+    })();
+  }, []);
+
   return (
     <>
       <ToastContainer />

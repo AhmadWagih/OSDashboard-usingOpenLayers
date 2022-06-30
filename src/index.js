@@ -10,6 +10,8 @@ import "../node_modules/react-toastify/dist/ReactToastify.css"
 import "../node_modules/ol/ol.css"
 import "./styles/olStyle.css"
 import "./styles/styles.css"
+import "bootstrap-icons/font/bootstrap-icons.css";
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <BrowserRouter>

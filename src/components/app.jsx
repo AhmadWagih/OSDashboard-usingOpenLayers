@@ -35,11 +35,11 @@ const App = () => {
         <Route path="/register" element={<Register userLogIn={userLogIn} />} />
         <Route path="/notLoggedIn" element={<NotLoggedIn />} />
         <Route exact path="/addData/*" element={<AddData />} />
-        <Route path="/symbology/*" element={<SymbologyModule />} />
-        <Route path="/dashboard" element={<DashBoardModule />} />
-        <Route exact path="/" element={<Navigate to="/home" />} />
+        <Route path="/symbology/:layerId/*" element={<SymbologyModule />} />
+        <Route path="/dashboard/:dashId" element={<DashBoardModule />} />
+        <Route exact path="/" element={<Navigate to="/home/*" />} />
         <Route
-          path="/home"
+          path="/home/*"
           element={
             <Home/>
           }
