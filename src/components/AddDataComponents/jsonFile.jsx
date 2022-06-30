@@ -265,7 +265,7 @@ const JsonFile = () => {
             value="url"
             id="jsonUrl"
             />
-          <label htmlFor="jsonUrl">input URL</label>
+          <label class="label-dark" htmlFor="jsonUrl">Input URL</label>
         </div>
       </div>
       <div className="component-div border-bot p-0">

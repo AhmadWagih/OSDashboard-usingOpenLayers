@@ -28,7 +28,7 @@ const MyData = () => {
     </div>
   ) : layers.length === 0 ? (
     <div className="myData-div">
-      <h4 className="text-muted p-4">no Layerss yet.</h4>
+      <h4 className="text-muted p-4">No Layers yet to Show...</h4>
     </div>
   ) : (
     <>
