@@ -1,5 +1,9 @@
+import { useState, createContext, useCallback } from "react";
+import { v4 as uuid } from "uuid";
 // jwt
-const authentication = () => {
+export const AuthContext = createContext();
+
+const AuthContextProvider = () => {
     return (
         <div>
             
@@ -7,4 +11,3 @@ const authentication = () => {
     );
 };
 
-export default authentication;
