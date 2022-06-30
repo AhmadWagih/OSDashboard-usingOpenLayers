@@ -32,7 +32,7 @@ import { DeleteDashboard, getAllDashboards } from './../../APIs/dashboard';
   :(dashboards.length===0)
   ?(
     <div className="myData-div">
-      <h4 className="text-muted p-4">no Dashboards yet.</h4>
+      <h4 className="text-muted p-4">No Dashboards yet to Show...</h4>
     </div>
   )
   :(

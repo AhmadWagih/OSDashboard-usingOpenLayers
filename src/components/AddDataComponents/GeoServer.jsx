@@ -14,7 +14,7 @@ const GeoServer = (props) => {
   return ( 
     <>
         <div>
-          <label htmlFor="jsonUrl">input URL</label>
+          <label class="label-dark" htmlFor="jsonUrl">input URL</label>
           <input
             onChange={handleChange}
             type="url"
