@@ -1,7 +1,7 @@
 import { Button } from './Button';
 import React from 'react';
-import "../../myStyles/styles.css"
-import "../../myStyles/homsStyle.css"
+import "../../styles/styles.css"
+import "../../styles/homsStyle.css"
 import VideoHome from "./VideoHome.mp4"
 // import Card from './Card';
 
