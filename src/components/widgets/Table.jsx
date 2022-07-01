@@ -1,9 +1,10 @@
+
 import { useEffect, useState, useContext } from "react";
 import { Spinner } from "react-bootstrap";
 import { DashBoardContext } from "../../contexts/dashBoardContext";
 import classes from "../../styles/widget.module.css";
 
-function PizzaChart(props) {
+function Table(props) {
   const { google, state, renderModifyRightPanel,closeRightPanel } = props;
   const [chart, setChart] = useState(null);
   const { deleteWidget } = useContext(DashBoardContext);
@@ -22,7 +23,7 @@ function PizzaChart(props) {
         ...state.chartArr
       ]);
       let chart,options;
-      if (state.type==="Pie Chart") {
+      if (state.type==="Table") {
         options = {
           titlePosition: "none",
           legend: "none",
@@ -33,26 +34,6 @@ function PizzaChart(props) {
         chart = new google.visualization.PieChart(
           document.getElementById(state.id)
         );
-      }else if (state.type==="Bar Chart"){    // hasan
-        options = {
-          titlePosition: "none",
-          legend: "none",
-          is3D: state.is3D,
-          backgroundColor: { fill: state.bgColor },
-          hAxis: {
-            title: state.attributeX
-          },
-          vAxis: {
-            title: state.attributeY
-          }
-        };
-        chart =(!state.horizontal)
-        ? new google.visualization.ColumnChart(
-          document.getElementById(state.id)
-        )
-        :new google.visualization.BarChart(
-          document.getElementById(state.id)
-        )
       }
       chart.draw(data, options);
     }
@@ -105,4 +86,38 @@ function PizzaChart(props) {
   );
 }
 
-export default PizzaChart;
+export default Table;
+
+
+
+
+
+
+
+
+
+
+
+
+
+// else if (state.type==="Table"){
+//     options = {
+//       titlePosition: "none",
+//       legend: "none",
+//       is3D: state.is3D,
+//       backgroundColor: { fill: state.bgColor },
+//       hAxis: {
+//         title: state.attributeX
+//       },
+//       vAxis: {
+//         title: state.attributeY
+//       }
+//     };
+//     chart =(!state.horizontal)
+//     ? new google.visualization.ColumnChart(
+//       document.getElementById(state.id)
+//     )
+//     :new google.visualization.BarChart(
+//       document.getElementById(state.id)
+//     )
+//   }

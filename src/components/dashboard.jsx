@@ -12,7 +12,7 @@ import { addMap } from "../helper/addMapHelper";
 import { getDashboardById } from "../APIs/dashboard";
 import { getLayerById } from "../APIs/layer";
 import classes from "../styles/dash.module.css";
-
+import Table from "./widgets/Table"
 const Dashboard = () => {
   const [rightPanel, setRightPanel] = useState({
     component: null,
@@ -49,7 +49,7 @@ const Dashboard = () => {
         // case "Gauge":
         //   component=<Gauge />;
         //   break;
-        case "Bar Chart":
+        case "Table":
           component= <PieChart type={e.target.innerText} closeRightPanel={() => setRightPanel({ display: "none" })}/>;
           break;
         // case "List":
@@ -212,6 +212,7 @@ const Dashboard = () => {
             />
           ))}
           {chart?.map((ch) => (
+          <>
             <PieChartWidget
               key={ch.id}
               closeRightPanel={() => setRightPanel({ display: "none" })}
@@ -219,6 +220,14 @@ const Dashboard = () => {
               renderModifyRightPanel={renderModifyRightPanel}
               state={ch}
             />
+            <Table
+            key={ch.id}
+            closeRightPanel={() => setRightPanel({ display: "none" })}
+            google={google}
+            renderModifyRightPanel={renderModifyRightPanel}
+            state={ch}
+            />
+          </>
           ))}
           <div id={`map${layerId}`} className={classes.defaultMap}></div>
         </div>
