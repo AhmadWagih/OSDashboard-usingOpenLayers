@@ -6,11 +6,11 @@ import { Routes, Route,useParams } from "react-router-dom";
 import MyMap from "./Common/Map";
 import LeftPanel from "./symbology/leftPanel";
 import SingleSymb from "./symbology/SingleSymb";
-import CatSymb from "./symbology/CatSymb";
 import GraduatedSymbology from "./symbology/GraduatedSymbology";
 import GraduatedColor from "./symbology/GraduatedColor";
 import { SymbologyContext } from './../contexts/symbologyContext';
 import {ToastContainer} from "react-toastify";
+import LabelSymb from "./symbology/label";
 
 const Symbology = () => {
 
@@ -35,9 +35,9 @@ const Symbology = () => {
               path="/"
               element={<SingleSymb/>}
             />
-            <Route path="/Category" element={<CatSymb />} />
             <Route path="/GSize" element={<GraduatedSymbology />} />
             <Route path="/GColor" element={<GraduatedColor />} />
+            <Route path="/label" element={<LabelSymb />} />
           </Routes>
         </div>
         <div className="col">

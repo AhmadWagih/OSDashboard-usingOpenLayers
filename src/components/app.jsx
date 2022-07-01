@@ -37,6 +37,7 @@ const App = () => {
         <Route exact path="/addData/*" element={<AddData />} />
         <Route path="/symbology/:layerId/*" element={<SymbologyModule />} />
         <Route path="/dashboard/:dashId" element={<DashBoardModule />} />
+        <Route path="/dashboard/" element={<DashBoardModule />} />
         <Route exact path="/" element={<Navigate to="/home/" />} />
         <Route
           path="/home/*"

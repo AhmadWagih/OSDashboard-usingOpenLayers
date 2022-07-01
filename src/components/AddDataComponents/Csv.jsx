@@ -2,7 +2,6 @@ import React, { useCallback, useState, useContext } from "react";
 import { AddDataContext } from "./../../contexts/addData";
 import { toast } from "react-toastify";
 
-
 const Csv = () => {
   const [state, setState] = useState({
     layerName: "",
@@ -14,8 +13,8 @@ const Csv = () => {
     selectedFile: null,
     data: null,
     attOptions: null,
-    isLoaded:false,
-    isViewed:false,
+    isLoaded: true,
+    isViewed: false,
     attributes: [{ name: "", key: "" }], //name of attributes given by the user & the chosen fields from the json file
   });
 
@@ -26,16 +25,17 @@ const Csv = () => {
     if (type !== "file") {
       setState((u) => ({ ...u, [name]: value }));
     } else {
-      state.isOpen=true;
+      state.isOpen = true;
       setState((u) => ({ ...u, [name]: e.target.files }));
     }
+    console.log(`${name} ${value}`);
   }, []);
 
   const readData = async () => {
     const reader = new FileReader();
     reader.addEventListener("load", (event) => {
       viewData(event.target.result);
-      state.isLoaded=true;
+      state.isLoaded = true;
       console.log(state.isLoaded);
     });
     reader.readAsText(state.selectedFile[0]);
@@ -50,7 +50,6 @@ const Csv = () => {
       } else {
         attributes[+name]["key"] = value;
       }
-      console.log(attributes);
       setState((u) => ({ ...u, attributes: attributes }));
     },
     [state.attributes]
@@ -91,7 +90,7 @@ const Csv = () => {
             obj[dataKeys[j].trim()] = row[j].trim();
           }
         }
-        if (Object.keys(obj.length > 1))  jsonObj.push(obj);
+        if (Object.keys(obj.length > 1)) jsonObj.push(obj);
       }
     }
     let att = [...state.attributes];
@@ -106,18 +105,30 @@ const Csv = () => {
     });
   };
 
-  const handleFinalView=()=>{
+  const handleFinalView = () => {
     console.log(state.isLoaded);
-    if(state.isLoaded){
-      finalView(
-        state.data,
-        state.CoordSys,
-        state.longKey,
-        state.latKey,
-        state.attributes
-      )
-      state.isViewed=true;
-    }else{
+    if (state.isLoaded) {
+      if (state.longKey && state.latKey) {
+        finalView(
+          state.data,
+          state.CoordSys,
+          state.longKey,
+          state.latKey,
+          state.attributes,
+          "csv"
+        );
+        state.isViewed = true;
+      }else{
+        toast.error("choose long key and lat key", {
+          position: "bottom-left",
+          autoClose: 1000,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          theme: "colored",
+        });
+      }
+    } else {
       toast.error("Load data First", {
         position: "bottom-left",
         autoClose: 1000,
@@ -127,13 +138,16 @@ const Csv = () => {
         theme: "colored",
       });
     }
-  }
+  };
 
-  const handleSave=useCallback(()=>{
-    if (state.layerName!==""&&state.isViewed) {
+  const handleSave = useCallback(() => {
+    if (state.layerName !== "" && state.isViewed) {
       save(state.layerName);
-    }else{
-      let message = state.layerName!==""? "You can't save without View data":" Add Layer Name ";
+    } else {
+      let message =
+        state.layerName !== ""
+          ? "You can't save without View data"
+          : " Add Layer Name ";
       toast.error(message, {
         position: "bottom-left",
         autoClose: 1000,
@@ -143,8 +157,7 @@ const Csv = () => {
         theme: "colored",
       });
     }
-  },[save,state])
-
+  }, [save, state]);
 
   const addField = useCallback(() => {
     let att = [...state.attributes];
@@ -195,7 +208,6 @@ const Csv = () => {
             WGS 84
           </option>
           <option value="EPSG:3857">Psedu-Mercator</option>
-          <option value="EPSG:22993">Egypt Purple Belt</option>
           <option value="EPSG:22992">Egypt Red Belt</option>
           <option value="EPSG:22991">Egypt Blue Belt</option>
         </select>
@@ -206,7 +218,7 @@ const Csv = () => {
           onChange={handleChange}
           name="selectedFile"
           files={state.selectedFile}
-          accept=".csv"
+          accept=".csv,.txt"
           className="button-form"
           id="uploadFile"
         />
@@ -281,10 +293,7 @@ const Csv = () => {
           Add Field
         </div>
       </div>
-      <button
-        onClick={handleFinalView}
-        className="button-form "
-      >
+      <button onClick={handleFinalView} className="button-form ">
         View
       </button>
       <button onClick={handleSave} className="button-form ">

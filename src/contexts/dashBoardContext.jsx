@@ -14,15 +14,16 @@ const DashBoardContextProvider = ({ children }) => {
     chart: [],
   });
 
-  // add Features from backend to map to Map
+  // add Features from backend to map 
   const LoadMapData = useCallback(( map,geojsonElm, style) => {
-    let features = drawGeoJson(map, geojsonElm, style);
-    console.log(features[0]);
+    let {features} = drawGeoJson(map, geojsonElm, style);
     let attributes = features[0].getKeys();
+    attributes.shift();
     setAttributes(attributes);
     let data = attributes.map((att) => {
       return { [att]: features.map((elm) => elm.get(att)) };
     });
+    console.log(data);
     setData(data);
   }, []);
 
@@ -36,13 +37,38 @@ const DashBoardContextProvider = ({ children }) => {
       let modifiedWidget = widgets[widgetName].filter(
         (widget) => widget.id !== state.id
       );
-      console.log(modifiedWidget);
       newWidgets = { ...widgets, [widgetName]: modifiedWidget };
     }
     // in case of Indicator, add some aggregation for it and edit format
-    if (widgetName === "indicator") {
+    switch (widgetName) {
+      case "indicator":
       state.attribute = aggregate(state.attribute, state.agg);
       state.attribute = format(state.attribute, state.format);
+        break;
+      case "chart":
+        let Xvalues = data.filter(field=>Object.keys(field)[0]===state.attributeX)[0][state.attributeX]
+        let Xunique = [...new Set(Xvalues)]
+        let Yvalues = data.filter(field=>Object.keys(field)[0]===state.attributeY)[0][state.attributeY]
+        // let chartArr = Xvalues.map((xval,i)=>[Xvalues[i],+Yvalues[i]])
+        let chartArr=[]
+        for (let i = 0; i < Xunique.length; i++) {
+          const xun = Xunique[i];
+          const yarr=[];
+          for (let j = 0; j < Xvalues.length; j++) {
+            const xval = Xvalues[j];
+            const yval = +Yvalues[j];
+            if (xun===xval) {
+              yarr.push(yval)
+            }
+          }
+          chartArr.push([xun,aggregate(null,state.agg,yarr)])
+        }
+        state = {...state,chartArr}
+        break;
+    
+      default:
+        console.log("error");
+        break;
     }
     console.log(state);
     newWidgets[widgetName].push(state);
@@ -62,12 +88,12 @@ const DashBoardContextProvider = ({ children }) => {
   };
 
   // calculate sum mean min max from the attribute choosen
-  const aggregate = (att, agg) => {
-    let arr;
-    for (const elm of data) {
-      if (Object.keys(elm)[0] === att) {
-        console.log(elm);
-        arr = elm[att];
+  const aggregate = (att, agg,arr) => {
+    if (att) {
+      for (const elm of data) {
+        if (Object.keys(elm)[0] === att) {
+          arr = elm[att];
+        }
       }
     }
     switch (agg) {

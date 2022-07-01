@@ -1,7 +1,7 @@
-import { createContext, useState, useCallback,useEffect } from "react";
+import { createContext, useState, useCallback, useEffect } from "react";
 import { toast } from "react-toastify";
-import { addMap,addDrawLayer } from './../helper/addMapHelper.js';
-import { addNewLayer, getAllLayers } from './../APIs/layer';
+import { addMap, addDrawLayer } from "./../helper/addMapHelper.js";
+import { addNewLayer, getAllLayers } from "./../APIs/layer";
 
 //#region
 import VectorLayer from "ol/layer/Vector";
@@ -15,17 +15,16 @@ import Modify from "ol/interaction/Modify";
 import Snap from "ol/interaction/Snap";
 import Feature from "ol/Feature";
 import Point from "ol/geom/Point";
-import {Projection} from "ol/proj";
+import { transform } from "ol/proj";
 import GeoJSON from "ol/format/GeoJSON";
-import {bbox as bboxStrategy} from 'ol/loadingstrategy';;
+import { bbox as bboxStrategy } from "ol/loadingstrategy";
 //#endregion
 
 export const AddDataContext = createContext();
 
 const AddDataContextProvider = ({ children }) => {
+  const [layers, setLayers] = useState([]);
 
-  const [layers,setLayers] = useState([]);
-  
   // initialize state
   const [mapData, setMapData] = useState({
     map: null,
@@ -36,20 +35,25 @@ const AddDataContextProvider = ({ children }) => {
     dataSource: null,
     mapIsLoaded: false,
   });
-  
+
   const [drawControls, setDrawControls] = useState({
     isDrawing: false,
     isMeasuring: false,
     type: "point",
     drawAppear: false,
   });
-  
+
   //#region functions
-  const addMapAndDrawLayer=useCallback(() => {
-    let {map,baseMapsGroup} = addMap("map")
-    let {drawLayer} = addDrawLayer(map)
-    setMapData((mapData)=>({ ...mapData, map, baseMapsGroup, mapIsLoaded: true }));
-  }, [addMap,addDrawLayer]);
+  const addMapAndDrawLayer = useCallback(() => {
+    let { map, baseMapsGroup } = addMap("map");
+    let { drawLayer } = addDrawLayer(map);
+    setMapData((mapData) => ({
+      ...mapData,
+      map,
+      baseMapsGroup,
+      mapIsLoaded: true,
+    }));
+  }, [addMap, addDrawLayer]);
 
   const addLayerForm = () => {
     let overlaycontainer = document.getElementsByClassName(
@@ -75,7 +79,6 @@ const AddDataContextProvider = ({ children }) => {
       form.classList.add("hidden");
     });
   };
-
 
   const addDrawInteraction = useCallback(
     (type) => {
@@ -158,24 +161,28 @@ const AddDataContextProvider = ({ children }) => {
           image: new CircleStyle({
             radius: 4,
             fill: new Fill({
-              color: "red",
+              color: "orange",
             }),
           }),
         }),
       });
+      // get Layer Extent
+      let myExtent = olLayer.getSource().getExtent();
+      // zoom to layer Extent
+      mapData.map.getView().fit(myExtent);
       mapData.map.addLayer(olLayer);
     },
     [mapData]
   );
 
-  const finalView = useCallback(
-    (data, CoordSys, longKey, latKey, attributes) => {
-      let features = [];
-      let attNames = attributes.map((elm) => elm.name);
-      let attKeys = attributes.map((elm) => elm.key);
-      data.forEach((dataElm,i) => {
+  const finalView = (data, CoordSys, longKey, latKey, attributes, type) => {
+    let features = [];
+    let attNames = attributes.map((elm) => elm.name);
+    let attKeys = attributes.map((elm) => elm.key);
+    data.forEach((dataElm, i) => {
+      let long, lat;
+      if (type !== "csv") {
         let nestedKeys = longKey.split(" / ");
-        let long, lat;
         if (nestedKeys.length === 1) {
           long = +dataElm[longKey];
         } else if (nestedKeys.length === 2) {
@@ -191,44 +198,50 @@ const AddDataContextProvider = ({ children }) => {
         } else {
           lat = +dataElm[nestedKeys[0]][nestedKeys[1]][nestedKeys[2]];
         }
-        if (isNaN(long)||isNaN(lat)) {
-          console.log(i);
-        }
-        let coord = [long, lat];
-        // console.log(coord);
-        let feature = new Feature({
-          geometry: new Point(
-            Projection.transform(coord, CoordSys ? CoordSys : "EPSG4236", "EPSG:3857")
-          ),
-        });
-        for (let i = 0; i < attNames.length; i++) {
-          const name = attNames[i];
-          const key = attKeys[i];
-          let nestedKeys = key.split(" / ");
-          if (nestedKeys.length === 1) {
-            feature.set(name, dataElm[key]);
-          } else if (nestedKeys.length === 2) {
-            feature.set(name, dataElm[nestedKeys[0]][nestedKeys[1]]);
-          } else {
-            feature.set(
-              name,
-              dataElm[nestedKeys[0]][nestedKeys[1]][nestedKeys[2]]
-            );
-          }
-        }
-        features.push(feature);
+      } else {
+        longKey = longKey.replace(/\s+/g, "");
+        latKey = latKey.replace(/\s+/g, "");
+        long = +dataElm[longKey];
+        lat = +dataElm[latKey];
+      }
+      if (isNaN(long) || isNaN(lat)) {
+        console.log(i);
+      }
+      let coord = [long, lat];
+      // console.log(coord);
+      let feature = new Feature({
+        geometry: new Point(
+          CoordSys === "EPSG:3857"
+            ? coord
+            : transform(coord, CoordSys, "EPSG:3857")
+        ),
       });
-      featuresDraw(features);
-    },
-    [featuresDraw]
-  );
+      for (let i = 0; i < attNames.length; i++) {
+        const name = attNames[i];
+        const key = attKeys[i];
+        let nestedKeys = key.split(" / ");
+        if (nestedKeys.length === 1) {
+          feature.set(name, dataElm[key]);
+        } else if (nestedKeys.length === 2) {
+          feature.set(name, dataElm[nestedKeys[0]][nestedKeys[1]]);
+        } else {
+          feature.set(
+            name,
+            dataElm[nestedKeys[0]][nestedKeys[1]][nestedKeys[2]]
+          );
+        }
+      }
+      features.push(feature);
+    });
+    featuresDraw(features);
+  };
 
-  const save = async(layerName) => {
+  const save = async (layerName) => {
     let GEOJSON_PARSER = new GeoJSON();
     let vectorLayerAsJson = GEOJSON_PARSER.writeFeatures(
       mapData.dataSource.getFeatures()
     );
-    await addNewLayer(layerName,vectorLayerAsJson);
+    await addNewLayer(layerName, vectorLayerAsJson);
   };
 
   const wfsGeoserver = (wfsurl) => {
@@ -265,7 +278,10 @@ const AddDataContextProvider = ({ children }) => {
   //#endregion
 
   return (
-    <AddDataContext.Provider value={{mapData,addMapAndDrawLayer,
+    <AddDataContext.Provider
+      value={{
+        mapData,
+        addMapAndDrawLayer,
         addLayerForm,
         changeType,
         drawing,

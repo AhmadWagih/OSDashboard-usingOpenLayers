@@ -7,19 +7,23 @@ import { DashBoardContext } from "./../contexts/dashBoardContext";
 import { ToastContainer } from "react-toastify";
 import PieChartWidget from "./widgets/PieChartWidget";
 import useGoogleCharts from "../helper/google";
-import { useParams } from 'react-router-dom';
-import { getLayerById } from "../APIs/layer";
+import { useParams, useLocation } from "react-router-dom";
 import { addMap } from "../helper/addMapHelper";
-
+import { getDashboardById } from "../APIs/dashboard";
+import { getLayerById } from "../APIs/layer";
+import classes from "../styles/dash.module.css";
 
 const Dashboard = () => {
   const [rightPanel, setRightPanel] = useState({
     component: null,
     display: "none",
   });
-  const {dashId} =useParams()
-  const { widgets,LoadMapData } = useContext(DashBoardContext);
-  const { indicator,chart } = widgets;
+  // get layerId || dashId from Url
+  const layerId = useLocation().search.split("=")[1];
+  const { dashId } = useParams();
+
+  const { widgets, LoadMapData } = useContext(DashBoardContext);
+  const { indicator, chart } = widgets;
 
   const google = useGoogleCharts();
 
@@ -36,10 +40,10 @@ const Dashboard = () => {
           );
           break;
         case "Text":
-          component = <Text />;
+          component = <Text closeRightPanel={() => setRightPanel({ display: "none" })}/>;
           break;
         case "Pie Chart":
-          component = <PieChart />;
+          component = <PieChart closeRightPanel={() => setRightPanel({ display: "none" })}/>;
           break;
         // case "Gauge":
         //   component=<Gauge />;
@@ -76,13 +80,19 @@ const Dashboard = () => {
         break;
       case "text":
         component = (
-          <Text state={state}
-          closeRightPanel={() => setRightPanel({ display: "none" })} />
+          <Text
+            state={state}
+            closeRightPanel={() => setRightPanel({ display: "none" })}
+          />
         );
         break;
       case "pie Chart":
-        component = <PieChart state={state}
-        closeRightPanel={() => setRightPanel({ display: "none" })}/>;
+        component = (
+          <PieChart
+            state={state}
+            closeRightPanel={() => setRightPanel({ display: "none" })}
+          />
+        );
         break;
       // case "gauge":
       //   component=<Gauge />;
@@ -105,16 +115,31 @@ const Dashboard = () => {
 
   useEffect(() => {
     (async () => {
-      //call Backend
-      const layerData = await getLayerById(dashId);
+      // edit Dashboard
+      if (dashId) {
+        //call Backend
+        const dashData = await getDashboardById(dashId);
 
-      // create map
-      const { map, baseMapGroup } = addMap("map");
+        const mapArr = dashData.layers?.map((layer,i) => {
+          // create map
+          const { map } = addMap(`map${i}`);
 
-      // add Features
-      LoadMapData(map, layerData.geoJson, layerData.style);
+          // add Features
+          LoadMapData(map, layer.geoJson, layer.style);
+          return map;
+        });
+      }
+      // new Dashboard
+      else {
+        //call Backend
+        const layerData = await getLayerById(layerId);
+        // create map
+        const { map } = addMap(`map${layerId}`);
+        // add Features
+        LoadMapData(map, layerData.geoJson, layerData.style);
+      }
     })();
-  }, []);
+  }, [layerId]);
 
   return (
     <>
@@ -177,7 +202,7 @@ const Dashboard = () => {
             Table
           </div>
         </div>
-        <div className="col">
+        <div className={'col '+classes.dashDiv}>
           {indicator?.map((ind) => (
             <IndicatorWidget
               key={ind.id}
@@ -185,14 +210,15 @@ const Dashboard = () => {
               indicator={ind}
             />
           ))}
-            {chart?.map((chart) => (
+          {chart?.map((ch) => (
             <PieChartWidget
-              key={chart.id}
+              key={ch.id}
               google={google}
               renderModifyRightPanel={renderModifyRightPanel}
-              state={chart}
+              state={ch}
             />
           ))}
+          <div id={`map${layerId}`} className={classes.defaultMap}></div>
         </div>
         <div className="column-4" style={rightPanel.style}>
           {rightPanel.component}

@@ -1,0 +1,10 @@
+
+.defaultMap{
+    width:70%;
+    height: 70%;
+    display: inline-block;
+}
+.dashDiv{
+    display: flex;
+    justify-content: flex-start;
+}

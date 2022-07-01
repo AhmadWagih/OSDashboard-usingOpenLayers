@@ -49,12 +49,7 @@ export const addNewLayer = async (name, geoJson) => {
 export const EditLayer = async (id, layer) => {
   try {
     const { data } = await client.put(resource + id, { layerName: layer.name, geoJson:layer.geoJson,style:JSON.stringify(layer.style)});
-    console.log(data);
-    if (data.Contains("no Layer with id:")) {
-        alertError(data, "bottom-center")
-    } else {
-      alertSuccess(data, "bottom-center");
-    }
+    alertSuccess(data, "bottom-center");
   } catch (error) {
     alertError(error, "bottom-center");
   }

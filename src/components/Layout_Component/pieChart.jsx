@@ -10,13 +10,16 @@ const PieChart = (props) => {
     textSize: "",
     textColor: "#ff0000",
     bgColor: "#ffffff",
+    attributeX:"",
+    attributeY:"",
     is3D:true,
-    donught:false
+    donught:false,
+    agg:"sum"
   });
 
   const submit = () => {
-    if (state.title === "" && state.attribute !== null) {
-      toast.error(" Title or Indicator field is missing", {
+    if (state.title === "" && state.attributeX !== ""&& state.attributeY !== "") {
+      toast.error(" Title or Attribute field is missing", {
         position: "bottom-right",
         autoClose: 1000,
         closeOnClick: true,
@@ -26,6 +29,7 @@ const PieChart = (props) => {
       });
     } else {
       createWidget("chart", state);
+      props.closeRightPanel();
     }
   };
 
@@ -121,10 +125,33 @@ const PieChart = (props) => {
           X Direction
         </label>
         <select
-          name="attribute"
+          name="attributeX"
           className="drop-down w-75 p-0"
           id="Field"
-          value={state.attribute}
+          value={state.attributeX}
+          onChange={handleChange}
+        >
+          <option value={""} hidden disabled>
+            Select Field
+          </option>
+          {attributes?.map((att, index) => {
+            return (
+              <option key={index} value={att}>
+                {att}
+              </option>
+            );
+          })}
+        </select>
+      </div>
+      <div className="component-div">
+        <label htmlFor="componentName" className="label-dark w-75">
+          Y Direction
+        </label>
+        <select
+          name="attributeY"
+          className="drop-down w-75 p-0"
+          id="Field"
+          value={state.attributeY}
           onChange={handleChange}
         >
           <option value={""} hidden disabled>
@@ -140,26 +167,21 @@ const PieChart = (props) => {
         </select>
       </div>
       <div className="component-div border-bot">
-        <label htmlFor="componentName" className="label-dark w-75">
-          Y Direction
+        <label htmlFor="agg" className="label-dark w-75">
+          Aggregate
         </label>
         <select
-          name="attribute"
+          name="agg"
           className="drop-down w-75 p-0"
-          id="Field"
-          value={state.attribute}
+          id="agg"
           onChange={handleChange}
+          value={state.agg}
         >
-          <option value={""} hidden disabled>
-            Select Field
-          </option>
-          {attributes?.map((att, index) => {
-            return (
-              <option key={index} value={att}>
-                {att}
-              </option>
-            );
-          })}
+          <option value="sum">sum</option>
+          <option value="mean">mean</option>
+          <option value="min">min</option>
+          <option value="max">max</option>
+          <option value="count">count</option>
         </select>
       </div>
       <div className="component-div">

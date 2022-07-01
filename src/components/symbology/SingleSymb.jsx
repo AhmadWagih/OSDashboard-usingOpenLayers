@@ -2,10 +2,8 @@ import classes from "../../styles/symbologies.module.css";
 import { useContext } from 'react';
 import { SymbologyContext } from './../../contexts/symbologyContext';
 
-import Text from "ol/style/Text";
 import Fill from "ol/style/Fill";
 import Style from "ol/style/Style";
-import Icon from "ol/style/Icon";
 import FontSymbol from 'ol-ext/style/FontAwesome5Def';
 import { useState } from 'react';
 import { icons } from "../../helper/fontawsomeIcons";
@@ -15,13 +13,16 @@ const SingleSymb = () => {
   const [symbols,setSymbols] = useState(icons)
   const [state,setState] = useState({color:"#00FFFF",size:5})
 
+  const {assignStyle,saveStyle} = useContext(SymbologyContext)
 
   const handleChange = (event) => {
     const { name, value } = event.target;
-    setState((oldUser) => ({ ...oldUser, [name]: value }));
+    setState((old) => ({ ...old, [name]: value }));
   };
 
-  const {changeStyle,saveStyle} = useContext(SymbologyContext)
+  const handleSave=()=>{
+    saveStyle({type:"single",...state})
+  }
 
   const changeSymbol = (e) => {
     const googleLocIcon = new Style({
@@ -49,7 +50,8 @@ const SingleSymb = () => {
       }),
       }),     
     })
-    changeStyle(googleLocIcon);
+    setState({...state,glyph:e.target.value})
+    assignStyle("single",googleLocIcon);
   };
 
   return (
@@ -106,7 +108,7 @@ const SingleSymb = () => {
             <button value={symb} key={i} onClick={changeSymbol} className={`fas ${symb} ${classes.symbol}`}></button>
         ))}
         </div>
-      <button className={classes.btn} onClick={saveStyle}>Apply</button>
+      <button className={classes.btn} onClick={handleSave}>Save</button>
     </>
   );
 };

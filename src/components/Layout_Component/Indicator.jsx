@@ -39,6 +39,7 @@ const Indicator = (props) => {
       });
     } else {
         createWidget("indicator", state);
+        props.closeRightPanel()
     }
   };
 
@@ -163,6 +164,7 @@ const Indicator = (props) => {
           <option value="mean">mean</option>
           <option value="min">min</option>
           <option value="max">max</option>
+          <option value="count">count</option>
         </select>
       </div>
       <div className="component-div border-bot">

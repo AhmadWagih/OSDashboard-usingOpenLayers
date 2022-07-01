@@ -4,7 +4,13 @@ import View from "ol/View";
 import TileLayer from "ol/layer/Tile";
 import XYZ from "ol/source/XYZ";
 import OSM from "ol/source/OSM";
-import {FullScreen,OverviewMap,Rotate,ScaleLine,defaults} from "ol/control.js";
+import {
+  FullScreen,
+  OverviewMap,
+  Rotate,
+  ScaleLine,
+  defaults,
+} from "ol/control.js";
 import Group from "ol/layer/Group.js";
 import VectorLayer from "ol/layer/Vector";
 import CircleStyle from "ol/style/Circle";
@@ -14,6 +20,7 @@ import Style from "ol/style/Style";
 import VectorSource from "ol/source/Vector";
 import GeoJSON from "ol/format/GeoJSON";
 import FontSymbol from "ol-ext/style/FontAwesome5Def";
+import Text from "ol/style/Text";
 
 //#endregion
 
@@ -159,36 +166,98 @@ export const addBaseMapButton = (baseMapsGroup) => {
   }
 };
 // make datasource with layer d=features inside
-export const drawGeoJson = (map, geojson,style) => {
+export const drawGeoJson = (map, geojson, styleData) => {
   let GEOJSON_PARSER = new GeoJSON();
   let features = GEOJSON_PARSER.readFeatures(geojson);
   let dataSource = new VectorSource({
     features,
   });
-  if (!style) {
-    style = new Style({
+  const olLayer = new VectorLayer({
+    source: dataSource,
+  });
+  if (!styleData) {
+    let style = new Style({
       image: new FontSymbol({
-        glyph: 'fa-check-circle',
-        form: 'circle',
+        glyph: "fa-check-circle",
+        form: "circle",
         radius: 5,
         offsetY: -15,
         gradient: true,
         fontSize: 1.0,
         rotation: 0,
         rotateWithView: false,
-        color: 'white',
+        color: "white",
         fill: new Fill({
-            color: 'green',
+          color: "green",
         }),
       }),
-  });
-    console.log(style);
+    });
+    olLayer.setStyle(style);
+  } else {
+    assignStyle(features, styleData);
   }
-  const olLayer = new VectorLayer({
-    source: dataSource,
-    style: style
-  });
+  // get Layer Extent
+  let myExtent=olLayer.getSource().getExtent();
+  // zoom to layer Extent
+  map.getView().fit(myExtent);
   map.addLayer(olLayer);
 
-  return  features;
+  return { features, olLayer };
+};
+
+const assignStyle = (features, styleData) => {
+  switch (styleData.type) {
+    case "single":
+      let x = setInterval(() => {
+        let styles = new Style({
+          image: new FontSymbol({
+            glyph: styleData.glyph,
+            form: "none",
+            radius: styleData.size,
+            offsetY: -15,
+            fontSize: 1.0,
+            rotation: 0,
+            rotateWithView: false,
+            color: styleData.color,
+            fill: new Fill({
+              color: "red",
+            }),
+            stroke: new Stroke({
+              color: "white",
+              width: 2,
+            }),
+          }),
+        });
+        features.map((f) => f.setStyle(styles));
+      }, 100);
+      setTimeout(() => {
+        clearInterval(x);
+      }, 300);
+      break;
+    case "label":
+      let y = setInterval(() => {
+      const style = new Style({
+      text: new Text({
+        font: `${styleData.size}px Calibri,sans-serif`,
+        fill: new Fill({
+          color: styleData.color,
+        }),
+        stroke: new Stroke({
+          color: styleData.strokeColor,
+        }),
+      }),
+    });
+      features.map((f) => f.setStyle((feature)=>{
+        style.getText().setText(feature.get(styleData.attribute).toString());
+        return style;
+      },));
+    }, 100);
+    setTimeout(() => {
+      clearInterval(y);
+    }, 100);
+      break;
+    default:
+      console.log("error");
+      break;
+  }
 };

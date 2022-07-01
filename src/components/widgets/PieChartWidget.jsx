@@ -12,17 +12,14 @@ function PizzaChart(props) {
   const handleModify = () => {
     renderModifyRightPanel("chart", state);
   };
+
   useEffect(() => {
     if (google && !chart) {
       // Load the Visualization API and the controls package.
 
       var data = google.visualization.arrayToDataTable([
-        ["Task", "Hours per Day"],
-        ["Work", 11],
-        ["Eat", 2],
-        ["Commute", 2],
-        ["Watch TV", 2],
-        ["Sleep", 7],
+        [state.attributeX, state.attributeY],
+        ...state.chartArr
       ]);
       let hole = state.donught ? 0.4 : 0;
       var options = {
@@ -34,7 +31,7 @@ function PizzaChart(props) {
       };
 
       var chart = new google.visualization.PieChart(
-        document.getElementById("piechart")
+        document.getElementById("chart")
       );
 
       chart.draw(data, options);
@@ -70,7 +67,7 @@ function PizzaChart(props) {
           {state.title}
         </p>
         <div
-          id="piechart"
+          id="chart"
           className={classes.chart}
           style={{ width: parent?.style.width, height: parent?.style.height }}
         ></div>
