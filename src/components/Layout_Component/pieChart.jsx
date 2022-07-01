@@ -5,6 +5,7 @@ import { DashBoardContext } from "./../../contexts/dashBoardContext";
 const PieChart = (props) => {
   const { attributes, createWidget } = useContext(DashBoardContext);
   const [state, setState] = useState({
+    type:props.type,
     title: "",
     alignTitle: "left",
     textSize: "",
@@ -14,8 +15,18 @@ const PieChart = (props) => {
     attributeY:"",
     is3D:true,
     donught:false,
-    agg:"sum"
+    agg:"sum",
+    horizontal:false,
   });
+
+// did mount - with every render
+useEffect(()=>{
+  if (props.state) {
+    setState(props.state)      
+  }
+  else{
+  }
+},[])
 
   const submit = () => {
     if (state.title === "" && state.attributeX !== ""&& state.attributeY !== "") {
@@ -44,7 +55,7 @@ const PieChart = (props) => {
     <>
       <div className="list-group-item">
         <h4>
-          Pie Chart
+          {props.type}
           <i
             className="fa-solid fa-rectangle-xmark close"
             onClick={props.closeRightPanel}
@@ -184,6 +195,7 @@ const PieChart = (props) => {
           <option value="count">count</option>
         </select>
       </div>
+      {props.type==="Pie Chart"?(<>
       <div className="component-div">
         <input type="checkbox" className="form-check-input" name="is3D" id="is3D" onChange={handleChange} checked={state.is3D}/>
         <label htmlFor="is3D" className="label-dark w-75"> 3D Chart </label>
@@ -191,7 +203,12 @@ const PieChart = (props) => {
       <div className="component-div">
         <input type="checkbox" className="form-check-input" name="donught" id="donught" onChange={handleChange} checked={state.donught} />
         <label htmlFor="donught" className="label-dark w-75"> Donught </label>
+      </div></>):(<>
+        <div className="component-div">
+        <input type="checkbox" className="form-check-input" name="horizontal" id="horizontal" onChange={handleChange} checked={state.horizontal}/>
+        <label htmlFor="horizontal" className="label-dark w-75"> Horizontal </label>
       </div>
+      </>)}
       <button onClick={submit} className="button-form ">
         apply
       </button>

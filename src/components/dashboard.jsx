@@ -43,14 +43,15 @@ const Dashboard = () => {
           component = <Text closeRightPanel={() => setRightPanel({ display: "none" })}/>;
           break;
         case "Pie Chart":
-          component = <PieChart closeRightPanel={() => setRightPanel({ display: "none" })}/>;
+        case "Bar Chart":
+          component = <PieChart type={e.target.innerText} closeRightPanel={() => setRightPanel({ display: "none" })}/>;
           break;
         // case "Gauge":
         //   component=<Gauge />;
         //   break;
-        // case "Bar Chart":
-        //   component=<BarChart />;
-        //   break;
+        case "Bar Chart":
+          component= <PieChart type={e.target.innerText} closeRightPanel={() => setRightPanel({ display: "none" })}/>;
+          break;
         // case "List":
         //   component=<List />;
         //   break;
@@ -86,7 +87,7 @@ const Dashboard = () => {
           />
         );
         break;
-      case "pie Chart":
+      case "chart":
         component = (
           <PieChart
             state={state}
@@ -213,6 +214,7 @@ const Dashboard = () => {
           {chart?.map((ch) => (
             <PieChartWidget
               key={ch.id}
+              closeRightPanel={() => setRightPanel({ display: "none" })}
               google={google}
               renderModifyRightPanel={renderModifyRightPanel}
               state={ch}
