@@ -4,7 +4,7 @@ import { DashBoardContext } from "../../contexts/dashBoardContext";
 import classes from "../../styles/widget.module.css";
 
 function PizzaChart(props) {
-  const { google, state, renderModifyRightPanel,closeRightPanel } = props;
+  const { google, state, renderModifyRightPanel, closeRightPanel } = props;
   const [chart, setChart] = useState(null);
   const { deleteWidget } = useContext(DashBoardContext);
   const parent = document.getElementById("parent");
@@ -14,15 +14,16 @@ function PizzaChart(props) {
   };
 
   useEffect(() => {
-    if (google && !chart) {
+    if (google) {
       // Load the Visualization API and the controls package.
-
-      var data = google.visualization.arrayToDataTable([
-        [state.attributeX, state.attributeY],
-        ...state.chartArr
-      ]);
-      let chart,options;
-      if (state.type==="Pie Chart") {
+      if (!state.data) {
+        var data = google.visualization.arrayToDataTable([
+          [state.attributeX, state.attributeY],
+          ...state.chartArr,
+        ]);
+      }
+      let chart, options;
+      if (state.type === "Pie Chart") {
         options = {
           titlePosition: "none",
           legend: "none",
@@ -33,35 +34,53 @@ function PizzaChart(props) {
         chart = new google.visualization.PieChart(
           document.getElementById(state.id)
         );
-      }else if (state.type==="Bar Chart"){    // hasan
+      } else if (state.type === "Bar Chart") {
         options = {
           titlePosition: "none",
           legend: "none",
           is3D: state.is3D,
           backgroundColor: { fill: state.bgColor },
           hAxis: {
-            title: state.attributeX
+            title: state.attributeX,
           },
           vAxis: {
-            title: state.attributeY
-          }
+            title: state.attributeY,
+          },
         };
-        chart =(!state.horizontal)
-        ? new google.visualization.ColumnChart(
-          document.getElementById(state.id)
-        )
-        :new google.visualization.BarChart(
-          document.getElementById(state.id)
-        )
+        chart = !state.horizontal
+          ? new google.visualization.ColumnChart(
+              document.getElementById(state.id)
+            )
+          : new google.visualization.BarChart(
+              document.getElementById(state.id)
+            );
+      } else {
+        let tableReturn = tableFn();
+        chart = tableReturn.chart;
+        options = tableReturn.options;
+        data = tableReturn.data;
       }
       chart.draw(data, options);
     }
   }, [google, chart, state, parent]);
 
-  const refresh=()=>{
+  const refresh = () => {
     handleModify();
-    closeRightPanel()
-  }
+    closeRightPanel();
+  };
+
+  const tableFn = () => {
+    let data = new google.visualization.DataTable();
+    
+    state.opts.map((opt,i) => {
+      let type = isNaN(+state.data[0][i])?"string":"number";
+      return data.addColumn(type, opt)
+    });
+    data.addRows(state.data);
+    let options = { showRowNumber: state.horizontal, width: "100%", height: "100%" };
+    let chart = new google.visualization.Table(document.getElementById(state.id));
+    return {data,chart,options}
+  };
 
   return (
     <>

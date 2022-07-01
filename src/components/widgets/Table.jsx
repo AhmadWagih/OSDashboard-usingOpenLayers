@@ -1,6 +1,5 @@
 
 import { useEffect, useState, useContext } from "react";
-import { Spinner } from "react-bootstrap";
 import { DashBoardContext } from "../../contexts/dashBoardContext";
 import classes from "../../styles/widget.module.css";
 

@@ -23,7 +23,6 @@ const DashBoardContextProvider = ({ children }) => {
     let data = attributes.map((att) => {
       return { [att]: features.map((elm) => elm.get(att)) };
     });
-    console.log(data);
     setData(data);
   }, []);
 
@@ -46,26 +45,40 @@ const DashBoardContextProvider = ({ children }) => {
       state.attribute = format(state.attribute, state.format);
         break;
       case "chart":
-        let Xvalues = data.filter(field=>Object.keys(field)[0]===state.attributeX)[0][state.attributeX]
-        let Xunique = [...new Set(Xvalues)]
-        let Yvalues = data.filter(field=>Object.keys(field)[0]===state.attributeY)[0][state.attributeY]
-        // let chartArr = Xvalues.map((xval,i)=>[Xvalues[i],+Yvalues[i]])
-        let chartArr=[]
-        for (let i = 0; i < Xunique.length; i++) {
-          const xun = Xunique[i];
-          const yarr=[];
-          for (let j = 0; j < Xvalues.length; j++) {
-            const xval = Xvalues[j];
-            const yval = +Yvalues[j];
-            if (xun===xval) {
-              yarr.push(yval)
+        if (state.type!=="Table") {
+          let Xvalues = data.filter(field=>Object.keys(field)[0]===state.attributeX)[0][state.attributeX]
+          let Xunique = [...new Set(Xvalues)]
+          let Yvalues = data.filter(field=>Object.keys(field)[0]===state.attributeY)[0][state.attributeY]
+          // let chartArr = Xvalues.map((xval,i)=>[Xvalues[i],+Yvalues[i]])
+          let chartArr=[]
+          for (let i = 0; i < Xunique.length; i++) {
+            const xun = Xunique[i];
+            const yarr=[];
+            for (let j = 0; j < Xvalues.length; j++) {
+              const xval = Xvalues[j];
+              const yval = +Yvalues[j];
+              if (xun===xval) {
+                yarr.push(yval)
+              }
             }
+            chartArr.push([xun,aggregate(null,state.agg,yarr)])
           }
-          chartArr.push([xun,aggregate(null,state.agg,yarr)])
+          state = {...state,chartArr}
+        }else{
+          let newData = state.opts.map(opt=>(
+            data.filter(field=>Object.keys(field)[0]===opt)[0][opt]
+          ))
+          state.data=[]
+          for (let i = 0; i < newData[0].length; i++) {
+            let arrRow=[]
+            for (let j = 0; j < newData.length; j++) {
+              arrRow.push(newData[j][i])
+            }
+            state.data.push(arrRow)
+          }
+          console.log(state.data);
         }
-        state = {...state,chartArr}
         break;
-    
       default:
         console.log("error");
         break;

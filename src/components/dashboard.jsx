@@ -44,14 +44,12 @@ const Dashboard = () => {
           break;
         case "Pie Chart":
         case "Bar Chart":
+          case "Table":
           component = <PieChart type={e.target.innerText} closeRightPanel={() => setRightPanel({ display: "none" })}/>;
           break;
         // case "Gauge":
         //   component=<Gauge />;
         //   break;
-        case "Table":
-          component= <PieChart type={e.target.innerText} closeRightPanel={() => setRightPanel({ display: "none" })}/>;
-          break;
         // case "List":
         //   component=<List />;
         //   break;
@@ -212,7 +210,6 @@ const Dashboard = () => {
             />
           ))}
           {chart?.map((ch) => (
-          <>
             <PieChartWidget
               key={ch.id}
               closeRightPanel={() => setRightPanel({ display: "none" })}
@@ -220,14 +217,6 @@ const Dashboard = () => {
               renderModifyRightPanel={renderModifyRightPanel}
               state={ch}
             />
-            <Table
-            key={ch.id}
-            closeRightPanel={() => setRightPanel({ display: "none" })}
-            google={google}
-            renderModifyRightPanel={renderModifyRightPanel}
-            state={ch}
-            />
-          </>
           ))}
           <div id={`map${layerId}`} className={classes.defaultMap}></div>
         </div>
