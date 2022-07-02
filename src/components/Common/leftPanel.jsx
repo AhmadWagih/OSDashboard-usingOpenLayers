@@ -2,34 +2,37 @@ import { NavLink } from "react-router-dom";
 import propTypes from "prop-types";
 
 const LeftPanel = () => {
-  
   return (
     <>
-    <NavLink className="navLink" to="/addData/">
-        <div className="p-2 toolti">
-          <i className="fa-solid fa-compass-drafting"></i>
-          <span className="tooltiptext ">DrawData</span>
-        </div>
-      </NavLink>
-    <NavLink className="navLink" to="/addData/json">
+      <NavLink className="navLink" to="/addData/json">
         <div className="p-2 toolti">
           <i className="fa-solid fa-database"></i>
           <span className="tooltiptext ">JsonFile</span>
         </div>
       </NavLink>
-    <NavLink className="navLink" to="/addData/csv">
+      <NavLink className="navLink" to="/addData/csv">
         <div className="p-2 toolti">
           <i className="fa-solid fa-file-csv"></i>
           <span className="tooltiptext ">CsvFile</span>
         </div>
       </NavLink>
-    <NavLink className="navLink" to="/addData/geoserver">
+      <NavLink className="navLink" to="/addData/">
         <div className="p-2 toolti">
-        <img src={require("../../imgs/geoserver.png")} alt="geoserver" className="icon"/>
+          <i className="fa-solid fa-compass-drafting"></i>
+          <span className="tooltiptext ">DrawData</span>
+        </div>
+      </NavLink>
+      <NavLink className="navLink" to="/addData/geoserver">
+        <div className="p-2 toolti">
+          <img
+            src={require("../../imgs/geoserver.png")}
+            alt="geoserver"
+            className="icon"
+          />
           <span className="tooltiptext ">geoserver</span>
         </div>
       </NavLink>
-    
+
       {/* <div>
       <div className="list-group-item w-75" onClick={wrap}>
         <i className="fa-solid fa-folder-plus"></i> Add Data

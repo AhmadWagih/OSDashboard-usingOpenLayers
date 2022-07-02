@@ -18,7 +18,7 @@ import Themes from "./Layout_Component/Themes";
 import LeftPanel from './symbology/leftPanel';
 
 const Dashboard = () => {
-  const [leftPanel, setLeftPanel] = useState(<Widget/>)
+  const [leftPanel, setLeftPanel] = useState(null)
   const [rightPanel, setRightPanel] = useState({
     component: null,
     display: "none",
@@ -135,6 +135,7 @@ const Dashboard = () => {
   };
 
   useEffect(() => {
+    
     (async () => {
       // edit Dashboard
       if (dashId) {
@@ -159,8 +160,9 @@ const Dashboard = () => {
         // add Features
         LoadMapData(map, layerData.geoJson, layerData.style);
       }
+      setLeftPanel(<Widget renderRightPanel={renderRightPanel}/>)
     })();
-  }, [layerId]);
+  }, [layerId,setLeftPanel]);
 
   return (
     <>
