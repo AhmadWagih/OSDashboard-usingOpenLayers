@@ -15,10 +15,11 @@ import classes from "../styles/dash.module.css";
 // import Layout from "./Layout_Component/Layout";
 import Widget from "./Layout_Component/Widget";
 import Themes from "./Layout_Component/Themes";
-import LeftPanel from './symbology/leftPanel';
+import LeftPanel from "./symbology/leftPanel";
+import { addNewDashboard } from './../APIs/dashboard';
 
 const Dashboard = () => {
-  const [leftPanel, setLeftPanel] = useState(null)
+  const [leftPanel, setLeftPanel] = useState(null);
   const [rightPanel, setRightPanel] = useState({
     component: null,
     display: "none",
@@ -32,6 +33,11 @@ const Dashboard = () => {
 
   const google = useGoogleCharts();
 
+  // // hasan 
+  // const handleSave=()=>{
+  //   addNewDashboard(`dash:+${dashId}`,widgets,layerId)
+  //   console.log(dashId);
+  // }
   const renderRightPanel = useCallback(
     (e) => {
       let style = { display: "inline-block" };
@@ -123,7 +129,7 @@ const Dashboard = () => {
       //   leftPanel = <Layout />;
       //   break;
       case "fa-solid fa-toolbox":
-        leftPanel = <Widget renderRightPanel={renderRightPanel}/>;
+        leftPanel = <Widget renderRightPanel={renderRightPanel} />;
         break;
       case "fa-solid fa-palette":
         leftPanel = <Themes />;
@@ -135,7 +141,6 @@ const Dashboard = () => {
   };
 
   useEffect(() => {
-    
     (async () => {
       // edit Dashboard
       if (dashId) {
@@ -160,9 +165,9 @@ const Dashboard = () => {
         // add Features
         LoadMapData(map, layerData.geoJson, layerData.style);
       }
-      setLeftPanel(<Widget renderRightPanel={renderRightPanel}/>)
+      setLeftPanel(<Widget renderRightPanel={renderRightPanel} />);
     })();
-  }, [layerId,setLeftPanel]);
+  }, [layerId, setLeftPanel]); // hasan last 3 
 
   return (
     <>
@@ -183,12 +188,10 @@ const Dashboard = () => {
           </div>
           <div className="p-2 toolti">
             <i className="fa-solid fa-floppy-disk"></i>
-            <span className="tooltiptext">Save</span>
+            <span className="tooltiptext" /*onClick={handleSave}*/ >Save</span>
           </div>
         </div>
-        <div className="column-2 col-2 p-0">
-         {leftPanel}
-        </div>
+        <div className="column-2 col-2 p-0">{leftPanel}</div>
         <div className={"col " + classes.dashDiv}>
           {indicator?.map((ind) => (
             <IndicatorWidget

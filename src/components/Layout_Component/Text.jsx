@@ -46,7 +46,7 @@ class Text extends Component {
           <input
             type="color"
             id="color"
-            value={"#ff0000"}
+            value={"#f0f9e8"}
             onChange={this.props.handleChange}
           />
         </div>

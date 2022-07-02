@@ -9,7 +9,7 @@ const Themes = (props) => {
     title: "",
     alignTitle: "left",
     textSize: "",
-    textColor: "#ff0000",
+    textColor: "#f0f9e80",
     bgColor: "#00cccc",
     attribute: "",
     agg: "sum",
@@ -48,17 +48,47 @@ const Themes = (props) => {
   };
 
   const [show, setShow] = useState(true);
-
   return (
     <>
-      <div className="list-group-item">
-        <h4>
-          Theme
-        </h4>
-      </div>
-      <div className="accordion " id="accordionExample">
+      <div className="accordion accordion-flush" id="accordionFlushExample">
         <div className="accordion-item">
-          <h2 className="accordion-header" id="headingOne">
+          <h2 className="accordion-header" id="flush-headingOne">
+            <button
+              onClick={props.closeRightPanel}
+              className="accordion-button collapsed"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#flush-collapseOne"
+              aria-expanded="false"
+              aria-controls="flush-collapseOne"
+            >
+              Theme
+            </button>
+          </h2>
+          <div
+            id="flush-collapseOne"
+            className="accordion-collapse collapse"
+            aria-labelledby="flush-headingOne"
+            data-bs-parent="#accordionFlushExample"
+          >
+            <div className="accordion-body">
+              <button
+                onClick={props.closeRightPanel}
+                className="accordion-button collapsed"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#flush-collapseOne"
+                aria-expanded="false"
+                aria-controls="flush-collapseOne"
+              >
+                Theme
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div className="accordion-item">
+          <h2 className="accordion-header" id="flush-headingTwo">
             <button
               onClick={() => {
                 setShow(!show);
@@ -74,34 +104,39 @@ const Themes = (props) => {
             </button>
           </h2>
           <div
-            id="collapseOne"
-            className="accordion-collapse collapse show"
-            aria-labelledby="headingOne"
-            data-bs-parent="#accordionExample"
+            id="flush-collapseTwo"
+            className="accordion-collapse collapse"
+            aria-labelledby="flush-headingTwo"
+            data-bs-parent="#accordionFlushExample"
           >
-            {show ? (
-              <div className="accordion-body ">
-                {/* ====================our code================================================================= */}
-                <div className="component-div ">
-                  <label htmlFor="background-color" className="label-dark w-75">
-                    Background Color
-                  </label>
-                  <input
-                    name="bgColor"
-                    type="color"
-                    id="background-color"
-                    onChange={handleChange}
-                    value={state.bgColor}
-                  />
+            <div className="accordion-body">
+              {show ? (
+                <div className="accordion-body ">
+                  {/* ====================our code================================================================= */}
+                  <div className="component-div ">
+                    <label
+                      htmlFor="background-color"
+                      className="label-dark w-75"
+                    >
+                      Background Color
+                    </label>
+                    <input
+                      name="bgColor"
+                      type="color"
+                      id="background-color"
+                      onChange={handleChange}
+                      value={state.bgColor}
+                    />
+                  </div>
+                  {/* ============================================================================================== */}
                 </div>
-                {/* ============================================================================================== */}
-              </div>
-            ) : null}
+              ) : null}
+            </div>
           </div>
         </div>
 
         <div className="accordion-item">
-          <h2 className="accordion-header" id="headingTwo">
+          <h2 className="accordion-header" id="flush-headingThree">
             <button
               onClick={() => {
                 setShow(!show);
@@ -117,165 +152,77 @@ const Themes = (props) => {
             </button>
           </h2>
           <div
-            id="collapseTwo"
-            className="accordion-collapse collapse show "
-            aria-labelledby="headingTwo"
-            data-bs-parent="#accordionExample"
+            id="flush-collapseThree"
+            className="accordion-collapse collapse"
+            aria-labelledby="flush-headingThree"
+            data-bs-parent="#accordionFlushExample"
           >
-            {show ? (
-              <div className="accordion-body">
-                <div className="component-div border-bot">
-                  <label htmlFor="component-name" className="label-dark">
-                    Title :
-                  </label>
-                  <input
-                    name="title"
-                    onChange={handleChange}
-                    className="text-input-dark w-75"
-                    placeholder="Enter Comp. name"
-                    id="component-name"
-                    value={state.title}
-                  />
+            <div className="accordion-body">
+              {show ? (
+                <div className="accordion-body">
+                  <div className="component-div border-bot">
+                    <label htmlFor="component-name" className="label-dark">
+                      Title :
+                    </label>
+                    <input
+                      name="title"
+                      onChange={handleChange}
+                      className="text-input-dark w-75"
+                      placeholder="Enter Comp. name"
+                      id="component-name"
+                      value={state.title}
+                    />
+                  </div>
+                  <div className="component-div border-bot">
+                    <label htmlFor="alignTitle" className="label-dark w-75">
+                      Title align :
+                    </label>
+                    <select
+                      name="alignTitle"
+                      className="drop-down w-75 p-0"
+                      id="alignTitle"
+                      value={state.alignTitle}
+                      onChange={handleChange}
+                    >
+                      <option value="left">left</option>
+                      <option value="center">center</option>
+                      <option value="right">right</option>
+                    </select>
+                  </div>
+                  <div className="component-div border-bot">
+                    <label htmlFor="text-size" className="label-dark w-75">
+                      Text size :
+                    </label>
+                    <input
+                      min={8}
+                      max={72}
+                      step={2}
+                      name="textSize"
+                      onChange={handleChange}
+                      type="number"
+                      className="text-input-dark w-20"
+                      id="text-size"
+                      value={state.textSize}
+                    />
+                  </div>
+                  <div className="component-div border-bot">
+                    <label htmlFor="color" className="label-dark w-75">
+                      Text Color
+                    </label>
+                    <input
+                      name="textColor"
+                      type="color"
+                      id="color"
+                      onChange={handleChange}
+                      value={state.textColor}
+                    />
+                  </div>
                 </div>
-                <div className="component-div border-bot">
-                  <label htmlFor="alignTitle" className="label-dark w-75">
-                    Title align :
-                  </label>
-                  <select
-                    name="alignTitle"
-                    className="drop-down w-75 p-0"
-                    id="alignTitle"
-                    value={state.alignTitle}
-                    onChange={handleChange}
-                  >
-                    <option value="left">left</option>
-                    <option value="center">center</option>
-                    <option value="right">right</option>
-                  </select>
-                </div>
-                <div className="component-div border-bot">
-                  <label htmlFor="text-size" className="label-dark w-75">
-                    Text size :
-                  </label>
-                  <input
-                    min={8}
-                    max={72}
-                    step={2}
-                    name="textSize"
-                    onChange={handleChange}
-                    type="number"
-                    className="text-input-dark w-20"
-                    id="text-size"
-                    value={state.textSize}
-                  />
-                </div>
-                <div className="component-div border-bot">
-                  <label htmlFor="color" className="label-dark w-75">
-                    Text Color
-                  </label>
-                  <input
-                    name="textColor"
-                    type="color"
-                    id="color"
-                    onChange={handleChange}
-                    value={state.textColor}
-                  />
-                </div>
-              </div>
-            ) : null}
-          </div>
-        </div>
-
-        <div className="accordion-item">
-          <h2 className="accordion-header" id="headingTwo">
-            <button
-              onClick={() => {
-                setShow(!show);
-              }}
-              className="accordion-button collapsed"
-              type="button"
-              data-bs-toggle="collapse"
-              data-bs-target="#collapseTwo"
-              aria-expanded="false"
-              aria-controls="collapseTwo"
-            >
-              Footer
-            </button>
-          </h2>
-          <div
-            id="collapseTwo"
-            className="accordion-collapse collapse show "
-            aria-labelledby="headingTwo"
-            data-bs-parent="#accordionExample"
-          >
-            {show ? (
-              <div className="accordion-body">
-                <div className="component-div border-bot">
-                  <label htmlFor="component-name" className="label-dark">
-                    Title :
-                  </label>
-                  <input
-                    name="title"
-                    onChange={handleChange}
-                    className="text-input-dark w-75"
-                    placeholder="Enter Comp. name"
-                    id="component-name"
-                    value={state.title}
-                  />
-                </div>
-                <div className="component-div border-bot">
-                  <label htmlFor="alignTitle" className="label-dark w-75">
-                    Title align :
-                  </label>
-                  <select
-                    name="alignTitle"
-                    className="drop-down w-75 p-0"
-                    id="alignTitle"
-                    value={state.alignTitle}
-                    onChange={handleChange}
-                  >
-                    <option value="left">left</option>
-                    <option value="center">center</option>
-                    <option value="right">right</option>
-                  </select>
-                </div>
-                <div className="component-div border-bot">
-                  <label htmlFor="text-size" className="label-dark w-75">
-                    Text size :
-                  </label>
-                  <input
-                    min={8}
-                    max={72}
-                    step={2}
-                    name="textSize"
-                    onChange={handleChange}
-                    type="number"
-                    className="text-input-dark w-20"
-                    id="text-size"
-                    value={state.textSize}
-                  />
-                </div>
-                <div className="component-div border-bot">
-                  <label htmlFor="color" className="label-dark w-75">
-                    Text Color
-                  </label>
-                  <input
-                    name="textColor"
-                    type="color"
-                    id="color"
-                    onChange={handleChange}
-                    value={state.textColor}
-                  />
-                </div>
-              </div>
-            ) : null}
+              ) : null}
+            </div>
           </div>
         </div>
       </div>
-
-      <button onClick={submit} className="button-form ">
-        apply
-      </button>
     </>
   );
 };

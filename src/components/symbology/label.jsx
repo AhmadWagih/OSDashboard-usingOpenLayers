@@ -9,7 +9,7 @@ import Stroke from "ol/style/Stroke";
 const LabelSymb = () => {
   const { attributes, assignStyle, saveStyle } = useContext(SymbologyContext);
   const [state, setState] = useState({
-    color: "#00FFFF",
+    color: "#00ffd4",
     size: 12,
     attribute: "",
     strokeColor: "#FFFFFF",

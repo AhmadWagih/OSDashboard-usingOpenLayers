@@ -11,7 +11,7 @@ import Stroke from "ol/style/Stroke";
 
 const SingleSymb = () => {
   const [symbols,setSymbols] = useState(icons)
-  const [state,setState] = useState({color:"#00FFFF",size:5})
+  const [state,setState] = useState({color:"#00ffd4",size:8})
   const [glyph,setGlyph] = useState(null)
 
   const {assignStyle,saveStyle} = useContext(SymbologyContext)
@@ -43,7 +43,7 @@ const SingleSymb = () => {
         rotateWithView: false,
         color: state.color,
         fill: new Fill({
-            color: 'red',
+            color: '#f0f9e8',
         }),
       }),     
     })

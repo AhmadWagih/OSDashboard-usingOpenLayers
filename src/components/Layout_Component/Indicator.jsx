@@ -8,7 +8,7 @@ const Indicator = (props) => {
     title: "",
     alignTitle: "left",
     textSize: "",
-    textColor: "#ff0000",
+    textColor: "#393e43",
     bgColor: "#00cccc",
     attribute: "",
     agg: "sum",
