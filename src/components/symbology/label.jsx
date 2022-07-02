@@ -86,14 +86,6 @@ const LabelSymb = () => {
         />
       </div>
       <div className="component-div border-bot">
-        <button>
-          <i>I</i>
-        </button>
-        <button className={classes.boldBtn}>
-          <b>B</b>
-        </button>
-      </div>
-      <div className="component-div border-bot">
         <label htmlFor="text-size" className="label-dark w-75">
           Size :
         </label>

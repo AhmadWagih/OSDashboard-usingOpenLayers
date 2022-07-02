@@ -12,8 +12,13 @@ import { addMap } from "../helper/addMapHelper";
 import { getDashboardById } from "../APIs/dashboard";
 import { getLayerById } from "../APIs/layer";
 import classes from "../styles/dash.module.css";
-import Table from "./widgets/Table"
+// import Layout from "./Layout_Component/Layout";
+import Widget from "./Layout_Component/Widget";
+import Themes from "./Layout_Component/Themes";
+import LeftPanel from './symbology/leftPanel';
+
 const Dashboard = () => {
+  const [leftPanel, setLeftPanel] = useState(<Widget/>)
   const [rightPanel, setRightPanel] = useState({
     component: null,
     display: "none",
@@ -40,12 +45,19 @@ const Dashboard = () => {
           );
           break;
         case "Text":
-          component = <Text closeRightPanel={() => setRightPanel({ display: "none" })}/>;
+          component = (
+            <Text closeRightPanel={() => setRightPanel({ display: "none" })} />
+          );
           break;
         case "Pie Chart":
         case "Bar Chart":
-          case "Table":
-          component = <PieChart type={e.target.innerText} closeRightPanel={() => setRightPanel({ display: "none" })}/>;
+        case "Table":
+          component = (
+            <PieChart
+              type={e.target.innerText}
+              closeRightPanel={() => setRightPanel({ display: "none" })}
+            />
+          );
           break;
         // case "Gauge":
         //   component=<Gauge />;
@@ -93,23 +105,33 @@ const Dashboard = () => {
           />
         );
         break;
-      // case "gauge":
-      //   component=<Gauge />;
-      //   break;
-      // case "bar Chart":
-      //   component=<BarChart />;
-      //   break;
       // case "list":
       //   component=<List />;
-      //   break;
-      // case "table":
-      //   component=<Table />;
       //   break;
       default:
         style = { display: "none" };
         break;
     }
     setRightPanel({ component, style });
+  };
+
+  const renderLeftPanel = (e) => {
+    console.log(e.target.className);
+    let leftPanel;
+    switch (e.target.className) {
+      // case "fa-solid fa-border-all":
+      //   leftPanel = <Layout />;
+      //   break;
+      case "fa-solid fa-toolbox":
+        leftPanel = <Widget renderRightPanel={renderRightPanel}/>;
+        break;
+      case "fa-solid fa-palette":
+        leftPanel = <Themes />;
+        break;
+      default:
+        break;
+    }
+    setLeftPanel(leftPanel);
   };
 
   useEffect(() => {
@@ -119,7 +141,7 @@ const Dashboard = () => {
         //call Backend
         const dashData = await getDashboardById(dashId);
 
-        const mapArr = dashData.layers?.map((layer,i) => {
+        const mapArr = dashData.layers?.map((layer, i) => {
           // create map
           const { map } = addMap(`map${i}`);
 
@@ -146,11 +168,15 @@ const Dashboard = () => {
       <div className="row m-0">
         <div className="column-1">
           <div className="p-2 toolti">
-            <i className="fa-solid fa-table"></i>
+            <i onClick={renderLeftPanel} className="fa-solid fa-border-all"></i>
             <span className="tooltiptext">Layout</span>
           </div>
           <div className="p-2 toolti">
-            <i className="fa-solid fa-palette"></i>
+            <i onClick={renderLeftPanel} className="fa-solid fa-toolbox"></i>
+            <span className="tooltiptext">Widget</span>
+          </div>
+          <div className="p-2 toolti">
+            <i onClick={renderLeftPanel} className="fa-solid fa-palette"></i>
             <span className="tooltiptext">Themes</span>
           </div>
           <div className="p-2 toolti">
@@ -159,49 +185,9 @@ const Dashboard = () => {
           </div>
         </div>
         <div className="column-2 col-2 p-0">
-          <div>
-            <h4 className="list-group-item">Layout</h4>
-          </div>
-          <div className="list-elements" onClick={renderRightPanel}>
-            <div className="d-inline m-2">
-              <i className="fa-solid fa-6"></i>
-              <i className="fa-solid fa-7"></i>
-            </div>
-            Indicator
-          </div>
-          <div className="list-elements" onClick={renderRightPanel}>
-            <div className="d-inline m-2">
-              <i className="fa-solid fa-6"></i>
-              <i className="fa-solid fa-7"></i>
-            </div>
-            Indicator
-          </div>
-          <div className="list-elements" onClick={renderRightPanel}>
-            <i className="fa-solid fa-spell-check m-2"></i>
-            Text
-          </div>
-          <div className="list-elements" onClick={renderRightPanel}>
-            <i className="fa-solid fa-chart-pie m-2"></i>
-            Pie Chart
-          </div>
-          <div className="list-elements" onClick={renderRightPanel}>
-            <i className="fa-solid fa-gauge-high m-2"></i>
-            Gauge
-          </div>
-          <div className="list-elements" onClick={renderRightPanel}>
-            <i className="fa-solid fa-chart-column m-2"></i>
-            Bar Chart
-          </div>
-          <div className="list-elements" onClick={renderRightPanel}>
-            <i className="fa-solid fa-list m-2"></i>
-            List
-          </div>
-          <div className="list-elements" onClick={renderRightPanel}>
-            <i className="fa-solid fa-table-cells m-2"></i>
-            Table
-          </div>
+         {leftPanel}
         </div>
-        <div className={'col '+classes.dashDiv}>
+        <div className={"col " + classes.dashDiv}>
           {indicator?.map((ind) => (
             <IndicatorWidget
               key={ind.id}

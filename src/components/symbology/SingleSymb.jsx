@@ -12,6 +12,7 @@ import Stroke from "ol/style/Stroke";
 const SingleSymb = () => {
   const [symbols,setSymbols] = useState(icons)
   const [state,setState] = useState({color:"#00FFFF",size:5})
+  const [glyph,setGlyph] = useState(null)
 
   const {assignStyle,saveStyle} = useContext(SymbologyContext)
 
@@ -25,15 +26,15 @@ const SingleSymb = () => {
   }
 
   const changeSymbol = (e) => {
+    let myglyph;
+    if (e) {
+      myglyph = e.target.value;
+    }else{
+      myglyph = glyph
+    }
     const googleLocIcon = new Style({
-      // image: new Icon({
-      //   anchor: [0.5, 5],
-      //   anchorXUnits: "fraction",
-      //   anchorYUnits: "pixels",
-      //   src: require("../../imgs/icons8-google-maps-48.png"),
-      // }),
       image: new FontSymbol({
-        glyph: e.target.value,
+        glyph: myglyph,
         form: 'none',
         radius: state.size,
         offsetY: -15,
@@ -44,13 +45,9 @@ const SingleSymb = () => {
         fill: new Fill({
             color: 'red',
         }),
-        stroke: new Stroke({
-          color: 'white',
-          width: 2,
-      }),
       }),     
     })
-    setState({...state,glyph:e.target.value})
+    setState({...state,glyph:myglyph})
     assignStyle("single",googleLocIcon);
   };
 
@@ -58,19 +55,6 @@ const SingleSymb = () => {
     <>
       <div className="list-group-item">
         <h4>Single Symbology</h4>
-      </div>
-      <div className="component-div border-bot">
-        <label htmlFor="symbol" className="label-dark">
-          Symbology
-        </label>
-        <input
-          // onChange={handleChange}
-          // value={state.symbology}
-          name="symbol"
-          className="text-input-dark"
-          placeholder="symbol..."
-          id="symbol"
-        />
       </div>
       <div className="component-div border-bot">
         <label htmlFor="color" className="label-dark w-75">

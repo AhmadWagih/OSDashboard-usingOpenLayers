@@ -1,0 +1,27 @@
+.row1{
+    padding-right: var(--bs-gutter-x, 3rem);
+    padding-left: var(--bs-gutter-x, 3rem);
+  }
+  .row2col1{
+    background-color: rgb(190, 190, 190);
+  }
+  
+  .row2col2{
+    background-color: rgb(170, 170, 170);
+  }
+  
+  .row2col3{
+    background-color: rgb(135, 135, 135);
+  }
+  
+  .text{
+    padding: 15px;
+    margin:30px;
+  }
+  .text2{
+    font-size: 17px;
+  }
+  
+  #location{
+    height: 3px;
+  }

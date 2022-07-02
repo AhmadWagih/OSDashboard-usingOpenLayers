@@ -41,15 +41,14 @@ const DashBoardContextProvider = ({ children }) => {
     // in case of Indicator, add some aggregation for it and edit format
     switch (widgetName) {
       case "indicator":
-      state.attribute = aggregate(state.attribute, state.agg);
-      state.attribute = format(state.attribute, state.format);
+      state.aggvalue = aggregate(state.attribute, state.agg);
+      state.aggvalue = format(state.aggvalue, state.format);
         break;
       case "chart":
         if (state.type!=="Table") {
           let Xvalues = data.filter(field=>Object.keys(field)[0]===state.attributeX)[0][state.attributeX]
           let Xunique = [...new Set(Xvalues)]
           let Yvalues = data.filter(field=>Object.keys(field)[0]===state.attributeY)[0][state.attributeY]
-          // let chartArr = Xvalues.map((xval,i)=>[Xvalues[i],+Yvalues[i]])
           let chartArr=[]
           for (let i = 0; i < Xunique.length; i++) {
             const xun = Xunique[i];

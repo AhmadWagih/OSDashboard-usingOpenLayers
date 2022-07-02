@@ -18,11 +18,10 @@ const Indicator = (props) => {
   // did mount - with every render
   useEffect(()=>{
     if (props.state) {
+      console.log(props.state);
       setState(props.state)      
     }
-    else{
-    }
-  },[])
+  },[props])
 
   // submit button handle
   const submit = () => {
