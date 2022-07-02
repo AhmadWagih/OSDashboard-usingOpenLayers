@@ -71,6 +71,7 @@ symbol:before {
     z-index: 0;
     margin-left: 0 20px;
     text-decoration: none;
+    margin-top: 200px;
   }
   
   .btn:hover {
