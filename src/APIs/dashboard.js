@@ -31,11 +31,11 @@ export const getDashboardById = async (id) => {
       name: data.name,
       createdOn: data.createdOn,
       widgets:data.widgets, 
-      layers: data.layers.map((ly)=>({
+      layers:data.layers.$values.map((ly)=>({
         id:ly.id,
         name:ly.layerName,
         geoJson:ly.geoJson,
-      }))
+      })) 
     };
   } catch (error) {
     alertError(error, "bottom-center");

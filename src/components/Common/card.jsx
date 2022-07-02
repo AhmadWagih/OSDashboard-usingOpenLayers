@@ -51,9 +51,9 @@ const Card = ({ type, layer, image, deleteHandler }) => {
         ) : (
           <>
             <Link to={`/Dashboard/${layer.id}`} className="nav-link d-block">
-              <button className="btn btn-secondary">Edit Dashboard</button>
+              <button className="btn btn-secondary d-block w-100 m-0" >Edit Dashboard</button>
             </Link>
-            <button className="btn btn-secondary" onClick={handleDelete}>
+            <button className="btn btn-secondary d-block w-100 m-0" onClick={handleDelete}>
               Delete Dashboard
             </button>
           </>

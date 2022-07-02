@@ -6,14 +6,15 @@ const Themes = (props) => {
   const { attributes, createWidget } = useContext(DashBoardContext);
   const [state, setState] = useState({
     // initialize state
-    title: "",
-    alignTitle: "left",
-    textSize: "",
-    textColor: "#f0f9e80",
     bgColor: "#00cccc",
-    attribute: "",
-    agg: "sum",
-    format: "default",
+    titleHeader: "",
+    alignTitleHeader: "left",
+    textSizeHeader: "",
+    textColorHeader: "#f0f9e8",
+    titleFooter: "",
+    alignTitleFooter: "left",
+    textSizeFooter: "",
+    textColorFooter: "#f0f9e8",
   });
 
   // did mount - with every render
@@ -25,203 +26,147 @@ const Themes = (props) => {
     }
   }, []);
 
-  // submit button handle
-  const submit = () => {
-    console.log(state);
-    if (state.title === "" || state.attribute === "") {
-      toast.error(" Title or Indicator field is missing", {
-        position: "bottom-right",
-        autoClose: 1000,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        theme: "colored",
-      });
-    } else {
-      createWidget("indicator", state);
-    }
-  };
-
   const handleChange = (event) => {
     const { name, value } = event.target;
     setState((oldUser) => ({ ...oldUser, [name]: value }));
   };
 
-  const [show, setShow] = useState(true);
   return (
     <>
-      <div className="accordion accordion-flush" id="accordionFlushExample">
-        <div className="accordion-item">
-          <h2 className="accordion-header" id="flush-headingOne">
-            <button
-              onClick={props.closeRightPanel}
-              className="accordion-button collapsed"
-              type="button"
-              data-bs-toggle="collapse"
-              data-bs-target="#flush-collapseOne"
-              aria-expanded="false"
-              aria-controls="flush-collapseOne"
-            >
-              Theme
-            </button>
-          </h2>
-          <div
-            id="flush-collapseOne"
-            className="accordion-collapse collapse"
-            aria-labelledby="flush-headingOne"
-            data-bs-parent="#accordionFlushExample"
-          >
-            <div className="accordion-body">
-              <button
-                onClick={props.closeRightPanel}
-                className="accordion-button collapsed"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#flush-collapseOne"
-                aria-expanded="false"
-                aria-controls="flush-collapseOne"
-              >
-                Theme
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <div className="accordion-item">
-          <h2 className="accordion-header" id="flush-headingTwo">
-            <button
-              onClick={() => {
-                setShow(!show);
-              }}
-              className="accordion-button collapsed"
-              type="button"
-              data-bs-toggle="collapse"
-              data-bs-target="#collapseOne"
-              aria-expanded="true"
-              aria-controls="collapseOne"
-            >
-              Background
-            </button>
-          </h2>
-          <div
-            id="flush-collapseTwo"
-            className="accordion-collapse collapse"
-            aria-labelledby="flush-headingTwo"
-            data-bs-parent="#accordionFlushExample"
-          >
-            <div className="accordion-body">
-              {show ? (
-                <div className="accordion-body ">
-                  {/* ====================our code================================================================= */}
-                  <div className="component-div ">
-                    <label
-                      htmlFor="background-color"
-                      className="label-dark w-75"
-                    >
-                      Background Color
-                    </label>
-                    <input
-                      name="bgColor"
-                      type="color"
-                      id="background-color"
-                      onChange={handleChange}
-                      value={state.bgColor}
-                    />
-                  </div>
-                  {/* ============================================================================================== */}
-                </div>
-              ) : null}
-            </div>
-          </div>
-        </div>
-
-        <div className="accordion-item">
-          <h2 className="accordion-header" id="flush-headingThree">
-            <button
-              onClick={() => {
-                setShow(!show);
-              }}
-              className="accordion-button collapsed"
-              type="button"
-              data-bs-toggle="collapse"
-              data-bs-target="#collapseTwo"
-              aria-expanded="false"
-              aria-controls="collapseTwo"
-            >
-              Header
-            </button>
-          </h2>
-          <div
-            id="flush-collapseThree"
-            className="accordion-collapse collapse"
-            aria-labelledby="flush-headingThree"
-            data-bs-parent="#accordionFlushExample"
-          >
-            <div className="accordion-body">
-              {show ? (
-                <div className="accordion-body">
-                  <div className="component-div border-bot">
-                    <label htmlFor="component-name" className="label-dark">
-                      Title :
-                    </label>
-                    <input
-                      name="title"
-                      onChange={handleChange}
-                      className="text-input-dark w-75"
-                      placeholder="Enter Comp. name"
-                      id="component-name"
-                      value={state.title}
-                    />
-                  </div>
-                  <div className="component-div border-bot">
-                    <label htmlFor="alignTitle" className="label-dark w-75">
-                      Title align :
-                    </label>
-                    <select
-                      name="alignTitle"
-                      className="drop-down w-75 p-0"
-                      id="alignTitle"
-                      value={state.alignTitle}
-                      onChange={handleChange}
-                    >
-                      <option value="left">left</option>
-                      <option value="center">center</option>
-                      <option value="right">right</option>
-                    </select>
-                  </div>
-                  <div className="component-div border-bot">
-                    <label htmlFor="text-size" className="label-dark w-75">
-                      Text size :
-                    </label>
-                    <input
-                      min={8}
-                      max={72}
-                      step={2}
-                      name="textSize"
-                      onChange={handleChange}
-                      type="number"
-                      className="text-input-dark w-20"
-                      id="text-size"
-                      value={state.textSize}
-                    />
-                  </div>
-                  <div className="component-div border-bot">
-                    <label htmlFor="color" className="label-dark w-75">
-                      Text Color
-                    </label>
-                    <input
-                      name="textColor"
-                      type="color"
-                      id="color"
-                      onChange={handleChange}
-                      value={state.textColor}
-                    />
-                  </div>
-                </div>
-              ) : null}
-            </div>
-          </div>
-        </div>
+      <div>
+        <h4 className="list-group-item">Widgets</h4>
+      </div>
+      <div className="component-div border-bot">
+        <label htmlFor="background-color" className="label-dark w-75">
+          Background Color
+        </label>
+        <input
+          name="bgColor"
+          type="color"
+          id="background-color"
+          onChange={handleChange}
+          value={state.bgColor}
+        />
+      </div>
+      <div>
+        <h4 style={{color:"white",paddingLeft:"10px",margin:"5px" }}>Header</h4>
+      </div>
+      <div className="component-div">
+        <label htmlFor="component-name" className="label-dark">
+          Title :
+        </label>
+        <input
+          name="titleHeader"
+          onChange={handleChange}
+          className="text-input-dark w-75"
+          placeholder="Enter Comp. name"
+          id="component-name"
+          value={state.title}
+        />
+      </div>
+      <div className="component-div">
+        <label htmlFor="alignTitleHeader" className="label-dark w-75">
+          Title align :
+        </label>
+        <select
+          name="alignTitleHeader"
+          className="drop-down w-75 p-0"
+          id="alignTitleHeader"
+          value={state.alignTitleHeader}
+          onChange={handleChange}
+        >
+          <option value="left">left</option>
+          <option value="center">center</option>
+          <option value="right">right</option>
+        </select>
+      </div>
+      <div className="component-div">
+        <label htmlFor="text-size-header" className="label-dark w-75">
+          Text size :
+        </label>
+        <input
+          min={8}
+          max={72}
+          step={2}
+          name="textSizeHeader"
+          onChange={handleChange}
+          type="number"
+          className="text-input-dark w-20"
+          id="text-size-header"
+          value={state.textSizeHeader}
+        />
+      </div>
+      <div className="component-div border-bot">
+        <label htmlFor="colorHeader" className="label-dark w-75">
+          Text Color
+        </label>
+        <input
+          name="textColorHeader"
+          type="color"
+          id="colorHeader"
+          onChange={handleChange}
+          value={state.textColorHeader}
+        />
+      </div>
+      <div>
+        <h4 style={{color:"white",paddingLeft:"10px",margin:"5px" }}>Footer</h4>
+      </div>
+      <div className="component-div">
+        <label htmlFor="component-name-footer" className="label-dark">
+          Title :
+        </label>
+        <input
+          name="titleFooter"
+          onChange={handleChange}
+          className="text-input-dark w-75"
+          placeholder="Enter title name"
+          id="component-name-footer"
+          value={state.titleFooter}
+        />
+      </div>
+      <div className="component-div">
+        <label htmlFor="alignTitleFooter" className="label-dark w-75">
+          Title align :
+        </label>
+        <select
+          name="alignTitleFooter"
+          className="drop-down w-75 p-0"
+          id="alignTitleFooter"
+          value={state.alignTitleFooter}
+          onChange={handleChange}
+        >
+          <option value="left">left</option>
+          <option value="center">center</option>
+          <option value="right">right</option>
+        </select>
+      </div>
+      <div className="component-div">
+        <label htmlFor="text-size-footer" className="label-dark w-75">
+          Text size :
+        </label>
+        <input
+          min={8}
+          max={72}
+          step={2}
+          name="textSizeFooter"
+          onChange={handleChange}
+          type="number"
+          className="text-input-dark w-20"
+          id="text-size-footer"
+          value={state.textSizeFooter}
+        />
+      </div>
+      <div className="component-div border-bot">
+        <label htmlFor="colorFooter" className="label-dark w-75">
+          Text Color
+        </label>
+        <input
+          name="textColorFooter"
+          type="color"
+          id="colorFooter"
+          onChange={handleChange}
+          value={state.textColorFooter}
+        />
       </div>
     </>
   );

@@ -6,12 +6,12 @@ const Widget = ({ renderRightPanel }) => {
       <div>
         <h4 className="list-group-item">Widgets</h4>
       </div>
-      <div className="list-elements" onClick={renderRightPanel}>
+      {/* <div className="list-elements" onClick={renderRightPanel}>
         <div className="d-inline m-2">
           <i className="fa-solid fa-map-location"></i>
         </div>
         Map
-      </div>
+      </div> */}
       <div className="list-elements" onClick={renderRightPanel}>
         <div className="d-inline m-2">
           <i className="fa-solid fa-6"></i>

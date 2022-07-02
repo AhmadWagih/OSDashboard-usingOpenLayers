@@ -177,18 +177,17 @@ export const drawGeoJson = (map, geojson, styleData) => {
   });
   if (!styleData) {
     let style = new Style({
-      image: new FontSymbol({
-        glyph: "fa-check-circle",
-        form: "circle",
-        radius: 5,
-        offsetY: -15,
-        gradient: true,
-        fontSize: 1.0,
-        rotation: 0,
-        rotateWithView: false,
-        color: "white",
+      fill: new Fill({
+        color: "rgba(0, 0, 255, 0.2)",
+      }),
+      stroke: new Stroke({
+        color: "#ff00e1",
+        width: 2,
+      }),
+      image: new CircleStyle({
+        radius: 3,
         fill: new Fill({
-          color: "green",
+          color: "orange",
         }),
       }),
     });
@@ -201,7 +200,6 @@ export const drawGeoJson = (map, geojson, styleData) => {
   // zoom to layer Extent
   map.getView().fit(myExtent);
   map.addLayer(olLayer);
-
   return { features, olLayer };
 };
 
@@ -221,10 +219,6 @@ const assignStyle = (features, styleData) => {
             color: styleData.color,
             fill: new Fill({
               color: "red",
-            }),
-            stroke: new Stroke({
-              color: "white",
-              width: 2,
             }),
           }),
         });
