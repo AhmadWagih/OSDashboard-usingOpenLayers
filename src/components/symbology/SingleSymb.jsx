@@ -92,7 +92,7 @@ const SingleSymb = () => {
             <button value={symb} key={i} onClick={changeSymbol} className={`fas ${symb} ${classes.symbol}`}></button>
         ))}
         </div>
-      <button className={classes.btn} onClick={handleSave}>Save</button>
+      <button className="button-form" onClick={handleSave}>Save</button>
     </>
   );
 };

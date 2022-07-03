@@ -127,7 +127,7 @@ const LabelSymb = () => {
         />
       </div>
 
-      <button className={classes.btn} onClick={handleSave}>
+      <button className="button-form" onClick={handleSave}>
         Save
       </button>
     </>

@@ -45,7 +45,7 @@ const Card = ({ type, layer, image, deleteHandler }) => {
               Delete Layer
             </button>
             <Link to={`/Dashboard/?layerId=${layer.id}`} className="nav-link p-0 m-2">
-              <button className="button-form d-block">Create Dashboard</button>
+              <button className="button-form button-form-heighted d-block">Create Dashboard</button>
             </Link>
           </>
         ) : (

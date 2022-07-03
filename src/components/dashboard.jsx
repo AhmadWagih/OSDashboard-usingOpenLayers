@@ -190,7 +190,7 @@ const Dashboard = () => {
           </div>
         </div>
         <div className="column-2 col-2 p-0">{leftPanel}</div>
-        <div className={"col " + classes.dashDiv}>
+        <div className={"col m-0 " + classes.dashDiv}>
           <DashPreview
             layerId={layerId}
             setRightPanel={setRightPanel}

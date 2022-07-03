@@ -15,6 +15,14 @@ const DashPreview = ({
 
   return (
     <>
+      <div className={classes.bottomArea}>{indicator?.map((ind) => (
+          <IndicatorWidget
+            key={ind.id}
+            renderModifyRightPanel={renderModifyRightPanel}
+            indicator={ind}
+          />
+        ))}</div>
+      <div id={`map${layerId}`} className={classes.defaultMap}></div>
       <div className={classes.leftArea}>
         {chart?.map((ch) => (
           <PieChartWidget
@@ -26,14 +34,6 @@ const DashPreview = ({
           />
         ))}
       </div>
-      <div className={classes.bottomArea}>{indicator?.map((ind) => (
-          <IndicatorWidget
-            key={ind.id}
-            renderModifyRightPanel={renderModifyRightPanel}
-            indicator={ind}
-          />
-        ))}</div>
-      <div id={`map${layerId}`} className={classes.defaultMap}></div>
     </>
   );
 };

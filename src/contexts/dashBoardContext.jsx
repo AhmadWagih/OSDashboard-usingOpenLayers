@@ -82,7 +82,6 @@ const DashBoardContextProvider = ({ children }) => {
         console.log("error");
         break;
     }
-    console.log(state);
     newWidgets[widgetName].push(state);
     setWidgets(newWidgets);
   };

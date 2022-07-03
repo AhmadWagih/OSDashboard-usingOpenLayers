@@ -11,17 +11,23 @@
     position: relative;
 }
 .leftArea{
-    width: 30%;
-    height:100%;
+    width: 25% !important;
+    height:100% !important;
     margin: 0;
     display: inline-flex;
+    justify-content:flex-start;
+    align-items: center;
     flex-direction: column;
+    position: fixed;
+    right: 0;
 }
 .bottomArea{
-    width: 100%;
+    width: 53%;
     height: 20%;
     margin: 0;
     display: inline-flex;
     flex-direction: row;
     position: fixed;
+    left: 22%;
+    top: 72%;
 }

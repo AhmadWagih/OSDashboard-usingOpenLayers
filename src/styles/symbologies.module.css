@@ -1,3 +1,6 @@
+/* body{
+  overflow-y: hidden;
+} */
 .Body{
     border: 2px solid #323653;
     margin: auto;

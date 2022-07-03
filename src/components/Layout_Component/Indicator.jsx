@@ -25,7 +25,6 @@ const Indicator = (props) => {
 
   // submit button handle
   const submit = () => {
-    console.log(state);
     if (state.title === "" || state.attribute === "") {
       toast.error(" Title or Indicator field is missing", {
         position: "bottom-right",

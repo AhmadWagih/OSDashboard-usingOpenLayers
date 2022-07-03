@@ -42,11 +42,15 @@ h3 {
 .button-form {
   background-color: #393e43;
   color: white;
-  border-radius: 10px;
+  border-radius: 5px;
   width: 150px;
   display: block;
   margin: 10px auto 5px auto;
 }
+.button-form-heighted{
+  height: 40px;
+}
+
 .form-div {
   vertical-align: middle;
 }
@@ -216,6 +220,9 @@ h3 {
 
 .toolti:hover .tooltiptext {
   visibility: visible;
+}
+.toolti:hover {
+  cursor: pointer;
 }
 .column-2 {
   padding: 0;
